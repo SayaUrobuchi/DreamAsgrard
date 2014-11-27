@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>獵心者 樣板</title>
+<!-- CSS list -->
+<LINK href="css/main.css" rel="stylesheet" type="text/css">
+<LINK href="css/battle.css" rel="stylesheet" type="text/css">
+<LINK href="css/town.css" rel="stylesheet" type="text/css">
+<!-- script list -->
+<script src='http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js'></script>
+<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js'></script>
+<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.3/jquery.mousewheel.min.js'></script>
+</head>
+<body>
+<div id="main">
+	<div id="battle_main" style="display: block; top: auto;">
+		<div id="cutin_main">
+			<div class="cutin_container">
+				<div class="hero_whole_image"><img class="image" src="p/痕之刻_W.JPG"></div>
+				<div class="cutin_skill_name">痕</div>
+				<div class="cutin_skill_name">星</div>
+				<div class="cutin_skill_name">雙</div>
+				<div class="cutin_skill_name">翼</div>
+				<div class="cutin_serifu">
+					<div class="cutin_serifu_text">刷！刷！刷！刷！刷！刷！刷！刷！刷！刷！刷！刷！刷！刷！刷！刷！</div>
+				</div>
+				<div class="mask"></div>
+			</div>
+		</div>
+		<div id="battle_field">
+			<div class="container">
+				<div id="battle_ground"><div id="battle_enemy" style="width: 100px;"><div class="enemy" style="width: 100px; height: 100%; left: 0px;"><div class="cd_num" style="color: rgb(0, 187, 0); font-size: 18px;">15.9</div><div class="cd_bar_pivot"><div class="cd_bar_container" style="width: 80px; height: 8px; left: 8px;"><div class="cd_bar" style="height: 8px; overflow: hidden; width: 11.5714285714286%; background-color: rgb(255, 0, 221);"></div></div></div><div class="full_image" style="width: 100px;"><img class="image" src="p/吳名士_W2.PNG"></div><div class="hp pivot" style="bottom: -20px; width: 100px;"><div class="container"><div class="hp_bar_back" style="width: 100px;"></div><div class="hp_bar" style="width: 100px;"></div></div></div></div></div></div><div class="hero_area pivot"><div class="container"><div class="hero_icon pivot"><div class="container"><div class="hero"><div class="icon" style="border-color: rgb(204, 32, 204);"><img class="image" src="p/安夏_H.PNG"></div><div class="rate_msg" style="color: rgb(204, 32, 204);"></div></div><div class="hero"><div class="icon" style="border-color: rgb(204, 136, 0);"><img class="image" src="p/恩尼斯_H.PNG"></div><div class="rate_msg" style="color: rgb(204, 136, 0);"></div></div><div class="hero"><div class="icon" style="border-color: rgb(255, 48, 48);"><img class="image" src="p/古藤_H.JPG"></div><div class="rate_msg" style="color: rgb(255, 48, 48);"></div></div><div class="hero"><div class="icon" style="border-color: rgb(66, 85, 182);"><img class="image" src="p/妲伊_H.JPG"></div><div class="rate_msg" style="color: rgb(66, 85, 182);"></div></div><div class="hero"><div class="icon" style="border-color: rgb(55, 160, 83);"><img class="image" src="p/曙葉_H.JPG"></div><div class="rate_msg" style="color: rgb(55, 160, 83);"></div></div><div class="hero helper"><div class="icon" style="border-color: rgb(204, 32, 204);"><img class="image" src="p/小夕_H.PNG"></div><div class="rate_msg" style="color: rgb(204, 32, 204);"></div></div></div></div><div class="hero_hp pivot"><div class="container"><div class="hp_bar_back" style="width: 89.5229294212776%; background-color: rgb(170, 0, 119);"></div><div class="hp_bar" style="width: 89.5229294212776%;"></div><div class="hp_now">62000</div><div class="hp_max" style="font-size: 15px;">/69256</div></div></div></div></div></div></div><div id="board"><div class="container"><div class="board_area" style="height: 300px; width: 300px;"><div class="container"><div class="mask" style="display: none;"></div><div class="mana" style="color: rgb(66, 85, 182); left: 0px; bottom: 0px; display: block;">水</div><div class="mana" style="color: rgb(55, 160, 83); left: 0px; bottom: 50px; display: block;">木</div><div class="mana" style="color: rgb(221, 112, 160); left: 0px; bottom: 100px; display: block;">心</div><div class="mana" style="color: rgb(204, 136, 0); left: 0px; bottom: 150px; display: block;">光</div><div class="mana" style="color: rgb(204, 136, 0); left: 0px; bottom: 200px; display: block;">光</div><div class="mana" style="color: rgb(55, 160, 83); left: 0px; bottom: 250px; display: block;">木</div><div class="mana" style="color: rgb(55, 160, 83); left: 50px; bottom: 0px; display: block;">木</div><div class="mana" style="color: rgb(204, 32, 204); left: 50px; bottom: 50px; display: block;">暗</div><div class="mana" style="color: rgb(204, 136, 0); left: 50px; bottom: 100px; display: block;">光</div><div class="mana" style="color: rgb(55, 160, 83); left: 50px; bottom: 150px; display: block;">木</div><div class="mana" style="color: rgb(255, 48, 48); left: 50px; bottom: 200px; display: block;">火</div><div class="mana" style="color: rgb(255, 48, 48); left: 50px; bottom: 250px; display: block;">火</div><div class="mana" style="color: rgb(204, 32, 204); left: 100px; bottom: 0px; display: block;">暗</div><div class="mana" style="color: rgb(221, 112, 160); left: 100px; bottom: 50px; display: block;">心</div><div class="mana" style="color: rgb(204, 136, 0); left: 100px; bottom: 100px; display: block;">光</div><div class="mana" style="color: rgb(55, 160, 83); left: 100px; bottom: 150px; display: block;">木</div><div class="mana" style="color: rgb(221, 112, 160); left: 100px; bottom: 200px; display: block;">心</div><div class="mana" style="color: rgb(55, 160, 83); left: 100px; bottom: 250px; display: block;">木</div><div class="mana" style="color: rgb(55, 160, 83); left: 150px; bottom: 0px; display: block;">木</div><div class="mana" style="color: rgb(66, 85, 182); left: 150px; bottom: 50px; display: block;">水</div><div class="mana" style="color: rgb(221, 112, 160); left: 150px; bottom: 100px; display: block;">心</div><div class="mana" style="color: rgb(204, 136, 0); left: 150px; bottom: 150px; display: block;">光</div><div class="mana" style="color: rgb(55, 160, 83); left: 150px; bottom: 200px; display: block;">木</div><div class="mana" style="color: rgb(204, 136, 0); left: 150px; bottom: 250px; display: block;">光</div><div class="mana" style="color: rgb(55, 160, 83); left: 200px; bottom: 0px; display: block;">木</div><div class="mana" style="color: rgb(255, 48, 48); left: 200px; bottom: 50px; display: block;">火</div><div class="mana" style="color: rgb(221, 112, 160); left: 200px; bottom: 100px; display: block;">心</div><div class="mana" style="color: rgb(55, 160, 83); left: 200px; bottom: 150px; display: block;">木</div><div class="mana" style="color: rgb(55, 160, 83); left: 200px; bottom: 200px; display: block;">木</div><div class="mana" style="color: rgb(204, 136, 0); left: 200px; bottom: 250px; display: block;">光</div><div class="mana" style="color: rgb(66, 85, 182); left: 250px; bottom: 0px; display: block;">水</div><div class="mana" style="color: rgb(204, 32, 204); left: 250px; bottom: 50px; display: block;">暗</div><div class="mana" style="color: rgb(66, 85, 182); left: 250px; bottom: 100px; display: block;">水</div><div class="mana" style="color: rgb(255, 48, 48); left: 250px; bottom: 150px; display: block;">火</div><div class="mana" style="color: rgb(66, 85, 182); left: 250px; bottom: 200px; display: block;">水</div><div class="mana" style="color: rgb(255, 48, 48); left: 250px; bottom: 250px; display: block;">火</div></div></div><div id="mana_count_container"><div class="container"><div class="mana_count" style="top: 40px; color: rgb(255, 48, 48); font-size: 30px;">火: 0</div><div class="mana_plus_count" style="top: 40px; left: 120px; color: rgb(255, 48, 48); display: none;"> +0</div><div class="mana_count" style="top: 80px; color: rgb(66, 85, 182); font-size: 30px;">水: 0</div><div class="mana_plus_count" style="top: 80px; left: 120px; color: rgb(66, 85, 182); display: none;"> +0</div><div class="mana_count" style="top: 120px; color: rgb(55, 160, 83); font-size: 30px;">木: 0</div><div class="mana_plus_count" style="top: 120px; left: 120px; color: rgb(55, 160, 83); display: none;"> +0</div><div class="mana_count" style="top: 160px; color: rgb(204, 136, 0); font-size: 30px;">光: 0</div><div class="mana_plus_count" style="top: 160px; left: 120px; color: rgb(204, 136, 0); display: none;"> +0</div><div class="mana_count" style="top: 200px; color: rgb(204, 32, 204); font-size: 30px;">暗: 0</div><div class="mana_plus_count" style="top: 200px; left: 120px; color: rgb(204, 32, 204); display: none;"> +0</div><div class="mana_count" style="top: 240px; color: rgb(221, 112, 160); font-size: 30px;">心: 0</div><div class="mana_plus_count" style="top: 240px; left: 120px; color: rgb(221, 112, 160); display: none;"> +0</div></div></div><div id="turn" style="font-size: 30px;">1 回合</div><div id="combo" style="display: none;"></div></div></div></div>
+</div>
+<script>
+
+$('#cutin_main').hide();
+var cutin_main;
+var hero_whole_image_div;
+var cutin_skill_name_div;
+var cutin_serifu_div;
+var cutin_serifu_text_div;
+var cutin_mask_div;
+	
+var CUTIN_STATE = {
+	READY: 0, 
+	END: 1, 
+	PREPARE: 2, 
+	WAITING: 3, 
+};
+	
+var serifu = '刷！刷！刷！刷！刷！刷！刷！刷！刷！刷！刷！刷！刷！刷！刷！刷！\n無情的各種斬擊！'.split('');
+var skill_name = '痕星雙翼'.split('');
+var stat;
+
+function init()
+{
+	cutin_main = $('#cutin_main');
+	hero_whole_image_div = $('.hero_whole_image');
+	cutin_skill_name_div = $('.cutin_skill_name');
+	cutin_serifu_div = $('.cutin_serifu');
+	cutin_serifu_text_div = $('.cutin_serifu_text');
+	cutin_mask_div = $('#cutin_main .mask');
+	
+	stat = CUTIN_STATE.READY;
+	
+	setInterval(update, 30);
+}
+
+function update()
+{
+	switch (stat)
+	{
+	case CUTIN_STATE.READY:
+		stat = CUTIN_STATE.PREPARE;
+		break;
+	case CUTIN_STATE.PREPARE:
+		cutin_main.show();
+		hero_whole_image_div.css('left', '1000px');
+		hero_whole_image_div.css('opacity', '0');
+		cutin_skill_name_div.hide();
+		cutin_serifu_div.hide();
+		cutin_serifu_text_div.empty();
+		cutin_mask_div.show();
+		
+		hero_whole_image_div.animate({left: '400px', opacity: '1', }, {duration: 400, 
+			complete: function ()
+			{
+				hero_whole_image_div.animate({left: '300px'}, {duration: 1000, 
+					complete: function ()
+					{
+						hero_whole_image_div.animate({left: '-200px', opacity: '0', }, {duration: 200, 
+							complete: function ()
+							{
+								stat = CUTIN_STATE.END;
+							}, 
+						});
+					}, 
+				});
+			}, 
+		});
+		cutin_serifu_div.fadeIn(600, function () {
+			cutin_serifu_div.delay(800).fadeOut(400);
+		});
+		for (var i=0; i<cutin_skill_name_div.length; i++)
+		{
+			var div = $(cutin_skill_name_div[i]);
+			div.show();
+			div.css('font-size', '208px');
+			div.css('opacity', '0');
+			div.css('bottom', '256px');
+			div.css('left', (250+i*120)+'px');
+			div.delay(300+i*200).animate(
+				{'font-size': '108px', 'bottom': '316px', 'opacity': '1', }, 
+				{
+					duration: 200, 
+					complete: function ()
+					{
+						var d = div;
+						var t = i;
+						return function ()
+						{
+							/*d.delay(700-t*150).animate(
+								{'left': (50+t*120)+'px', 'opacity': 0, 'font-size': '316px', 'bottom': '256px', }, 
+								{
+									duration: 200, 
+								}
+							);
+							*/
+							d.delay(900-t*200).fadeOut(300);
+						}
+					}(), 
+				}
+			);
+		}
+		cutin_mask_div.css('opacity', 0);
+		cutin_mask_div.animate({'opacity': 0.8, }, {duration: 500, complete: function ()
+		{
+			cutin_mask_div.delay(1000).animate({'opacity': 0, }, {duration: 200, complete: function ()
+			{
+				cutin_mask_div.hide();
+			}, });
+		}, });
+		
+		cnt = 0;
+		ptr = 0;
+		str = '';
+		stat = CUTIN_STATE.WAITING;
+		break;
+	case CUTIN_STATE.WAITING:
+		cnt += 10;
+		while (cnt >= 8)
+		{
+			cnt -= 8;
+			if (ptr < serifu.length)
+			{
+				str += serifu[ptr++];
+			}
+		}
+		cutin_serifu_text_div.text(str);
+		break;
+	case CUTIN_STATE.END:
+		if (++cnt >= 10)
+		{
+			hero_whole_image_div.stop(false, false);
+			cutin_skill_name_div.stop(false, false);
+			cutin_serifu_div.stop(false, false);
+			cutin_serifu_text_div.stop(false, false);
+			cutin_mask_div.stop(false, false);
+			stat = CUTIN_STATE.PREPARE;
+		}
+		break;
+	}
+}
+// 刷！刷！刷！刷！刷！刷！刷！刷！刷！刷！刷！刷！刷！刷！刷！刷！
+// 痕星雙翼
+$(document).ready(init);
+</script>
+<script>
+//var re = /^\[(\w+):(.*?)\]/g;
+//var s = re.exec("[c:Ff0000]");
+//console.log(s);
+//$('#main').append($('<div>'+s[0]+'</div>'));
+</script>
+</body>
+</html>

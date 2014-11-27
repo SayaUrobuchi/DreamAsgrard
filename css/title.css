@@ -1,0 +1,49 @@
+
+#title_main #logo_text
+{
+	position: absolute;
+	top: 40%;
+	width: 100%;
+	text-align: center;
+	font-size: 50px;
+	white-space: pre-wrap;
+}
+
+#title_main #title_text
+{
+	position: absolute;
+	top: 10%;
+	width: 100%;
+	text-align: center;
+	font-size: 150px;
+	color: #30CC30;
+	white-space: pre-wrap;
+}
+
+#title_main #title_option
+{
+	position: absolute;
+	top: 50%;
+	width: 100%;
+	text-align: center;
+}
+
+#title_main .container
+{
+	position: relative;
+	display: inline-block;
+	max-width: 200px;
+}
+
+#title_main .option
+{
+	font-size: 45px;
+	margin-bottom: 20px;
+}
+
+#title_main .option:hover
+{
+	position: relative;
+	top: -2px;
+	color: #CC0000;
+}

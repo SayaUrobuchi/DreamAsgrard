@@ -1,0 +1,380 @@
+
+#town_main
+{
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+
+#town_main .background
+{
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	z-index: 0;
+}
+
+#town_main .background .image
+{
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+
+#town_main .town_name
+{
+	display: inline-block;
+	position: relative;
+	margin-top: 16px;
+	margin-left: 32px;
+	font-size: 64px;
+	background-color: #800000;
+	color: #CCCCCC;
+	z-index: 5;
+}
+
+#town_main .area_name
+{
+	display: inline-block;
+	position: relative;
+	margin-top: 12px;
+	margin-left: 12px;
+	font-size: 48px;
+	background-color: #800000;
+	color: #CCCCCC;
+	z-index: 5;
+}
+
+#town_main .option
+{
+	position: absolute;
+	width: 240px;
+	height: 100%;
+	top: 0px;
+	right: 0px;
+	z-index: 20;
+}
+
+#town_main .option_container
+{
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+
+#town_main .option_item
+{
+	position: relative;
+	font-size: 32px;
+	background-color: #800000;
+	margin-top: 16px;
+	margin-right: 16px;
+	padding: 4px;
+	color: #CCCCCC;
+	text-align: center;
+}
+
+#town_main .option_item:hover
+{
+	position: relative;
+	font-size: 32px;
+	right: 20px;
+	padding: 4px;
+	color: #50C070;
+	text-align: center;
+}
+
+#town_main #quest_main
+{
+	position: absolute;
+	z-index: 1000;
+	left: 50px;
+	top: 50px;
+	width: 900px;
+	height: 500px;
+}
+
+#town_main #quest_main #quest_container
+{
+	position: relative;
+	width: 100%;
+	height: 100%;
+	background-color: #805000;
+}
+
+#town_main #quest_main .quest_name
+{
+	position: relative;
+	font-size: 56px;
+	text-align: center;
+}
+
+#town_main #quest_main .quest_desc
+{
+	font-size: 24px;
+	padding-top: 12px;
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+#town_main #quest_main .button
+{
+	display: block;
+	position: absolute;
+	width: 150px;
+	height: 44px;
+	font-size: 32px;
+	top: 350px;
+	left: 373px;
+	padding: 8px;
+	background-color: #000080;
+	text-align: center;
+	border-style: solid;
+	border-color: #A03030;
+	border-width: 4px;
+}
+
+#town_main #quest_main .button:hover
+{
+	font-size: 36px;
+	background-color: #000080;
+	border-color: #F05050;
+}
+
+#town_main #hero_team_main
+{
+	position: absolute;
+	width: 50%;
+	height: 100%;
+	top: 0px;
+	left: 0px;
+	z-index: 1000;
+	overflow: hidden;
+	background-color: #30AA30;
+}
+
+#town_main .hero_team_container
+{
+	position: relative;
+	width: 100%;
+	padding: 8px;
+}
+
+#town_main #hero_team_main .team_name
+{
+	font-size: 40px;
+	padding: 16px;
+	text-align: center;
+}
+
+#town_main #hero_team_main .role
+{
+	font-size: 24px;
+	text-align: center;
+}
+
+#town_main #hero_team_main .icon:hover
+{
+	border-color: #3030AA;
+}
+
+#town_main #hero_team_main .button
+{
+	font-size: 24px;
+	width: 180px;
+	top: 16px;
+	left: 154px;
+}
+
+#town_main #hero_list_main
+{
+	position: absolute;
+	width: 50%;
+	height: 100%;
+	top: 0px;
+	right: 0px;
+	z-index: 1000;
+	overflow: hidden;
+	background-color: #AA3030;
+}
+
+#town_main .hero_list_container
+{
+	position: relative;
+	width: 100%;
+	padding: 8px;
+}
+
+#town_main .hero_list_item
+{
+	position: relative;
+	padding: 8px;
+}
+
+#town_main .hero_list_item:hover
+{
+	background-color: #3030AA;
+}
+
+#town_main #hero_list_main .hero
+{
+	display: inline-block;
+	vertical-align: top;
+}
+
+#town_main #hero_detail_main
+{
+	position: absolute;
+	background-color: #888830;
+	width: 100%;
+	height: 100%;
+	top: 0px;
+	left: 0px;
+	z-index: 1500;
+}
+
+#town_main #hero_detail_main .hero_detail_container
+{
+	position: relative;
+	height: 100%;
+	top: 0px;
+	left: 0px;
+}
+
+#town_main #hero_detail_main .hero_info
+{
+	display: inline-block;
+	background-color: #303088;
+	width: 500px;
+	height: 100%;
+}
+
+#town_main #hero_detail_main .hero_head_info
+{
+	padding: 8px;
+}
+
+#town_main #hero_detail_main .hero_whole_body
+{
+	position: relative;
+	background-color: #883088;
+	width: 500px;
+	height: 300px;
+	overflow: hidden;
+	text-align: center;
+}
+
+#town_main #hero_detail_main .hero_whole_body .image
+{
+	height: 100%;
+	width: auto;
+}
+
+#town_main #hero_detail_main .hero_exp
+{
+	position: relative;
+	width: 100%;
+	height: 20px;
+	font-size: 16px;
+	background-color: #553030;
+}
+
+#town_main #hero_detail_main .hero_exp_bar
+{
+	position: absolute;
+	width: 70%;
+	height: 100%;
+	left: 0px;
+	top: 0px;
+	background-color: #997020;
+}
+
+#town_main #hero_detail_main .hero_exp_head
+{
+	position: relative;
+	display: inline-block;
+}
+
+#town_main #hero_detail_main .hero_exp_value
+{
+	position: relative;
+	display: inline-block;
+}
+
+#town_main #hero_detail_main .hero_strength_info
+{
+	position: relative;
+	font-size: 28px;
+}
+
+#town_main #hero_detail_main .hero_hp
+{
+	display: inline-block;
+	padding: 4px;
+	width: 159px;
+	text-align: center;
+	background-color: #AA3030;
+}
+
+#town_main #hero_detail_main .hero_hp_head
+{
+	display: inline-block;
+	margin-right: 14px;
+}
+
+#town_main #hero_detail_main .hero_hp_value
+{
+	display: inline-block;
+}
+
+#town_main #hero_detail_main .hero_atk
+{
+	display: inline-block;
+	padding: 4px;
+	width: 158px;
+	text-align: center;
+	background-color: #303040;
+}
+
+#town_main #hero_detail_main .hero_atk_head
+{
+	display: inline-block;
+	margin-right: 14px;
+}
+
+#town_main #hero_detail_main .hero_atk_value
+{
+	display: inline-block;
+}
+
+#town_main #hero_detail_main .hero_heal
+{
+	display: inline-block;
+	padding: 4px;
+	width: 159px;
+	text-align: center;
+	background-color: #309930;
+}
+
+#town_main #hero_detail_main .hero_heal_head
+{
+	display: inline-block;
+	margin-right: 14px;
+}
+
+#town_main #hero_detail_main .hero_heal_value
+{
+	display: inline-block;
+}
+
+#town_main #hero_detail_main .hero_other_info
+{
+	position: relative;
+	display: inline-block;
+	top: 0px;
+	left: 0px;
+	width: 500px;
+	height: 100%;
+	background-color: #AA3030;
+	vertical-align: top;
+}

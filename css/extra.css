@@ -1,0 +1,364 @@
+
+
+#extra_main
+{
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+}
+
+#extra_main .container
+{
+	position: relative;
+	background-color: #284477;
+	width: 100%;
+	height: 100%;
+}
+
+#extra_main .header
+{
+	position: relative;
+	max-height: 80px;
+}
+
+#extra_main .header .title
+{
+	position: absolute;
+	top: 8px;
+	left: 8px;
+	font-size: 40px;
+}
+
+#extra_main .header .extra_command
+{
+	position: absolute;
+	right: 0px;
+}
+
+#extra_main .header .extra_command .command
+{
+	display: inline-block;
+	border-style: solid;
+	border-width: 2px;
+	font-size: 24px;
+	padding: 4px;
+	margin: 8px;
+}
+
+#extra_main .header .extra_command .clickable:hover
+{
+	color: #FFAC55;
+}
+
+#extra_main .header .extra_command .selected
+{
+	color: #FF3733;
+}
+
+#extra_main .content
+{
+	position: absolute;
+	top: 80px;
+	width: 100%;
+}
+
+#extra_main .extra_bgm
+{
+	position: absolute;
+	top: 0px;
+	width: 100%;
+}
+
+#extra_main .extra_bgm .title
+{
+	position: relative;
+	left: 16px;
+	font-size: 28px;
+}
+
+#extra_main .extra_bgm .title .text
+{
+	display: inline-block;
+}
+
+#extra_main .extra_bgm .title .clickable:hover
+{
+	color: #FFAC55;
+}
+
+#extra_main .extra_bgm .title .command
+{
+	display: inline-block;
+	border-style: solid;
+	border-width: 2px;
+	font-size: 20px;
+	margin-left: 30px;
+	padding: 4px;
+}
+
+#extra_main .extra_bgm .rate
+{
+	position: absolute;
+	top: 0px;
+	right: 12px;
+	font-size: 24px;
+}
+
+#extra_main .extra_bgm .data
+{
+	position: relative;
+}
+
+#extra_main .extra_bgm .data .column
+{
+	position: relative;
+	display: inline-block;
+	width: 400px;
+	margin-left: 70px;
+}
+
+#extra_main .extra_bgm .data .bgm
+{
+	position: relative;
+	background-color: #006BDC;
+	font-size: 20px;
+	height: 35px;
+	width: 360px;
+	line-height: 35px;
+	padding-left: 10px;
+	margin-top: 10px;
+}
+
+#extra_main .extra_bgm .data .bgm .num
+{
+	position: relative;
+	display: inline-block;
+	white-space: pre-wrap;
+}
+
+#extra_main .extra_bgm .data .bgm .text
+{
+	position: relative;
+	display: inline-block;
+	white-space: pre-wrap;
+}
+
+#extra_main .extra_bgm .data .clickable:hover
+{
+	background-color: #006BDC;
+	color: #FF9D37;
+}
+
+#extra_main .extra_bgm .data .selected
+{
+	background-color: #FF9D37;
+	color: #0300D8;
+}
+
+#extra_main .extra_cg
+{
+	position: absolute;
+	top: 0px;
+	width: 100%;
+}
+
+#extra_main .extra_cg .title
+{
+	position: relative;
+	left: 16px;
+	font-size: 28px;
+}
+
+#extra_main .extra_cg .page
+{
+	position: relative;
+	margin-top: 8px;
+	margin-left: 30px;
+}
+
+#extra_main .extra_cg .page .text
+{
+	display: inline-block;
+	white-space: pre-wrap;
+	font-size: 20px;
+}
+
+#extra_main .extra_cg .page .clickable:hover
+{
+	color: #FFAC55;
+}
+
+#extra_main .extra_cg .page .page_link
+{
+	display: inline-block;
+	font-size: 20px;
+	margin-left: 8px;
+	padding: 4px;
+}
+
+#extra_main .extra_cg .page .selected
+{
+	color: #FF8080;
+}
+
+#extra_main .extra_cg .rate
+{
+	position: absolute;
+	top: 0px;
+	right: 12px;
+	font-size: 24px;
+}
+
+#extra_main .extra_cg .data
+{
+	position: relative;
+}
+
+#extra_main .extra_cg .data .row
+{
+	position: relative;
+	margin-left: 15px;
+	margin-top: 20px;
+	width: 970px;
+	height: 180px;
+}
+
+#extra_main .extra_cg .data .cg
+{
+	position: relative;
+	display: inline-block;
+	background-color: #7100DC;
+	margin-left: 18px;
+	width: 220px;
+	height: 165px;
+}
+
+#extra_main .extra_cg .data .cg .cg_image
+{
+	position: relative;
+	background-color: #000000;
+	width: 200px;
+	height: 120px;
+	top: 10px;
+	margin-left: 10px;
+}
+
+#extra_main .extra_cg .data .cg .image
+{
+	width: 100%;
+	height: 100%;
+}
+
+#extra_main .extra_cg .data .cg .cg_rate
+{
+	position: absolute;
+	bottom: 4px;
+	right: 4px;
+	font-size: 20px;
+}
+
+#extra_main .cg_display
+{
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	z-index: 1000;
+}
+
+#extra_main .cg_display .image
+{
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+}
+
+#extra_main .extra_tip
+{
+	position: absolute;
+	top: 0px;
+	width: 100%;
+}
+
+#extra_main .extra_tip .left
+{
+	position: absolute;
+	top: 0px;
+	left: 40px;
+	width: 310px;
+}
+
+#extra_main .extra_tip .left .title
+{
+	font-size: 30px;
+}
+
+#extra_main .extra_tip .left .container
+{
+	position: relative;
+	margin-top: 16px;
+	background-color: #33AA70;
+	height: 435px;
+	overflow: hidden;
+}
+
+#extra_main .extra_tip .left .list
+{
+	position: relative;
+}
+
+#extra_main .extra_tip .left .tip
+{
+	margin-left: 10px;
+	color: #1020AA;
+	font-size: 24px;
+	line-height: 40px;
+}
+
+#extra_main .extra_tip .left .clickable:hover
+{
+	color: #AA7700;
+}
+
+#extra_main .extra_tip .right
+{
+	position: absolute;
+	top: 0px;
+	left: 390px;
+}
+
+#extra_main .extra_tip .rate
+{
+	position: absolute;
+	top: 0px;
+	right: 12px;
+	font-size: 24px;
+}
+
+#extra_main .extra_tip .right .container
+{
+	position: relative;
+	background-color: #332200;
+	top: 36px;
+	width: 546px;
+	height: 436px;
+	padding: 12px;
+	overflow: hidden;
+}
+
+#extra_main .extra_tip .right .title
+{
+	font-size: 30px;
+}
+
+#extra_main .extra_tip .right .text
+{
+	font-size: 20px;
+	margin-top: 20px;
+	white-space: pre-wrap;
+}

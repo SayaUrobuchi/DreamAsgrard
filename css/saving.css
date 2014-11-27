@@ -1,0 +1,167 @@
+
+
+#saving_main
+{
+	position: absolute;
+	z-index: 2000;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+}
+
+#saving_main #outer
+{
+	position: absolute;
+	width: 90%;
+	height: 90%;
+	top: 5%;
+	left: 5%;
+}
+
+#saving_main #outer .container
+{
+	position: relative;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	background-color: #105020;
+}
+
+#saving_main .container .save_title
+{
+	font-size: 50px;
+	color: #994466;
+	text-shadow: 1px 0px #332211, -1px 0px #332211, 0px 1px #332211, 0px -1px #332211;
+}
+
+#saving_main .container .save_data
+{
+	margin-top: 16px;
+}
+
+#saving_main .save_command
+{
+	position: absolute;
+	top: 4px;
+	right: 4px;
+	width: 500px;
+	text-align: right;
+}
+
+#saving_main .save_command .command
+{
+	display: inline-block;
+	font-size: 25px;
+	margin: 0px 4px;
+	padding: 2px;
+	border-style: outset;
+}
+
+#saving_main .save_command .clickable:hover
+{
+	color: #FA8000;
+	border-color: #FA8000;
+}
+
+#saving_main .save_data
+{
+	position: relative;
+	left: 5%;
+	width: 90%;
+	height: 400px;
+	overflow: hidden;
+}
+
+#saving_main .save_data .slot_container
+{
+	position: relative;
+}
+
+#saving_main .save_data .slot
+{
+	position: relative;
+	width: 98%;
+	height: 180px;
+	border-style: solid;
+	border-width: 4px;
+	margin-bottom: 12px;
+}
+
+#saving_main .save_data .clickable:hover
+{
+	border-color: #FA007A;
+}
+
+#saving_main .save_data .selected
+{
+	border-style: solid;
+	border-width: 4px;
+	border-color: #CC3030;
+}
+
+#saving_main .save_data .slot .title
+{
+	position: absolute;
+	top: 4px;
+	left: 300px;
+	width: 500px;
+}
+
+#saving_main .save_data .slot .title .id
+{
+	display: inline-block;
+	font-size: 30px;
+}
+
+#saving_main .save_data .slot .title .title_text
+{
+	display: inline-block;
+	font-size: 30px;
+	margin-left: 20px;
+	max-width: 450px;
+}
+
+#saving_main .save_data .slot .date
+{
+	position: absolute;
+	bottom: 4px;
+	right: 8px;
+	font-size: 20px;
+}
+
+#saving_main .save_data .slot .preview
+{
+	position: absolute;
+	top: 15px;
+	left: 12px;
+	width: 250px;
+	height: 150px;
+}
+
+#saving_main .save_data .slot .image
+{
+	width: 100%;
+}
+
+#saving_main .save_data .slot .text
+{
+	position: absolute;
+	left: 300px;
+	top: 60px;
+	font-size: 20px;
+	white-space: pre-wrap;
+}
+
+#saving_main .save_data .slot .new
+{
+	position: absolute;
+	font-size: 40px;
+	color: #FF0000;
+	top: 0px;
+	left: 0px;
+	border-style: solid;
+	border-color: #FF0000;
+	border-width: 4px;
+	text-shadow: 2px 0px #000000, -2px 0px #000000, 0px 2px #000000, 0px -2px #000000;
+}

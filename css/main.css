@@ -1,0 +1,181 @@
+
+
+/* global setting */
+body
+{
+	background-color: #000000;
+	color: #C8C8C8;
+	font-family: 'DFKai-SB', 'BiauKai', 'MingLiU', 'Microsoft JhengHei';
+	cursor: default;
+}
+
+#title
+{
+	font-size: 40px;
+	text-align: center;
+}
+
+#sub_title
+{
+	font-size: 24px;
+	text-align: center;
+}
+
+#error
+{
+	font-size: 30px;
+	color: #FF0000;
+}
+
+#main
+{
+	position: relative;
+	background-color: #330000;
+	width: 1000px;
+	height: 700px;
+	margin: auto;
+	margin-top: 15px;
+}
+
+.image
+{
+	position: relative;
+	width: 100%;
+}
+
+.font
+{
+	font-family: 'DFKai-SB', 'MingLiU', 'Microsoft JhengHei', 'BiauKai';
+}
+
+.central
+{
+	position: absolute;
+	top: 40%;
+	width: 100%;
+	text-align: center;
+	font-size: 30px;
+}
+
+.pre
+{
+	white-space: pre-wrap;
+}
+
+.clickable:hover
+{
+	cursor: pointer;
+}
+
+.pivot
+{
+	position: absolute;
+}
+
+.container
+{
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+
+.mask
+{
+	position: absolute;
+	z-index: 100000;
+	background-color: #000000;
+	width: 100%;
+	height: 100%;
+}
+
+.button
+{
+	position: relative;
+	cursor: pointer;
+	border-style: solid;
+	border-width: 2px;
+	padding: 4px;
+	text-align: center;
+}
+
+.button:hover
+{
+	cursor: pointer;
+	border-color: #3030AA;
+}
+
+/* hero shared style */
+.hero_icon
+{
+	position: relative;
+	top: 0px;
+	width: 100%;
+	height: 80px;
+}
+
+.hero
+{
+	position: relative;
+	display: inline-block;
+}
+
+.hero .icon
+{
+	position: relative;
+	border-style: solid;
+	border-width: 2px;
+	width: 76px;
+	height: 76px;
+}
+
+.hero_info
+{
+	display: inline-block;
+}
+
+.hero_info_r1
+{
+	position: relative;
+	font-size: 16px;
+	margin-left: 4px;
+}
+
+.hero_info_r2
+{
+	position: relative;
+	margin-left: 4px;
+}
+
+.hero_info .rarity
+{
+	display: inline-block;
+}
+
+.hero_info .level
+{
+	display: inline-block;
+	margin-left: 16px;
+}
+
+.hero_info .type
+{
+	display: inline-block;
+	margin-left: 16px;
+}
+
+.hero_info .relation
+{
+	display: inline-block;
+	margin-left: 16px;
+}
+
+.hero_info .title
+{
+	font-size: 24px;
+}
+
+.hero_info .name
+{
+	padding-left: 8px;
+	font-size: 28px;
+}
