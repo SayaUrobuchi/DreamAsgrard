@@ -1,0 +1,2 @@
+
+var F_START_STORY = 'F_START_STORY';

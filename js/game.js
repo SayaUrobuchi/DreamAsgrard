@@ -579,11 +579,13 @@ var IMAGE = {
 	
 	BG_CASTLE: "p/BG_Castle.jpg", 
 	
+	UI_DIALOG_NEXT: "p/ui_dialog_next.png", 
+	
 	ERROR: "p/吳名士_W.JPG", 
 };
 
 var AUDIO = {
-	//BGM_FANTASY: "m/fanta.mp3", 
+	BGM_FANTASY: "m/fanta.mp3", 
 };
 
 var cg_list = [

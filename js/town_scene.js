@@ -75,6 +75,18 @@ function TownScene (args)
 	
 	self.update = function ()
 	{
+		if (scene.current() != self)
+		{
+			return;
+		}
+	
+		if (!data.flag[F_START_STORY])
+		{
+			data.scene_id = ADV_C1.START_ID;
+			var adv = ADVScene();
+			scene.push(adv, true);
+		}
+		
 		switch (self.state)
 		{
 		// 並不在特定功能場所中，預設為四處走動狀態

@@ -8,6 +8,7 @@ function ADVScene ()
 	var ADV = {
 		READY: 0, 
 		LOADING: 1, 
+		EXIT: 2, 
 		PLAYING: 8, 
 	};
 	
@@ -158,8 +159,6 @@ function ADVScene ()
 		
 		self.current_scene = self;
 		
-		main_f.html(adv_main);
-		
 		adv_main.empty();
 		adv_main.click(self.click);
 		adv_main.mousedown(self.mousedown);
@@ -274,18 +273,20 @@ function ADVScene ()
 	
 	self.start = function ()
 	{
-		if (__DEBUG && START_FLAG == START_ADVTEST)
+		if (__DEBUG && START_FLAG == START.ADVTEST)
 		{
 			data.scene_id = __ADV_TEST_SCENE_ID;
 		}
 		log(LOG_MSG, "ADV準備中..");
-		main_f.html(adv_main);
 		self.init();
+		main_f.append(adv_main);
 		log(LOG_MSG, "ADV準備完成！");
 	}
 	
 	self.deinit = function ()
 	{
+		self.bgm_stop();
+		adv_main.remove();
 	}
 	
 	self.update = function ()
@@ -343,6 +344,9 @@ function ADVScene ()
 		case ADV.READY:
 			self.stage = ADV.PLAYING;
 			self.start_scene(data.scene_id);
+			break;
+		case ADV.EXIT:
+			scene.pop(true);
 			break;
 		case ADV.LOADING:
 			switch (self.prepare_stat)
@@ -528,9 +532,13 @@ function ADVScene ()
 			{
 				self.append_history();
 				self.post_action(self.scene.post_action);
-				if (self.scene.next_scene_id >= 0)
+				if (self.scene.next_scene_id > 0)
 				{
 					self.start_scene(self.scene.next_scene_id);
+				}
+				else
+				{
+					self.stage = ADV.EXIT;
 				}
 			}
 			break;
@@ -819,6 +827,7 @@ function ADVScene ()
 			}
 			self.dialog_text = "";
 			self.dialog_text_div.text('');
+			self.dialog_name_div.text('');
 			self.dialog_next = false;
 			self.dialog_next_div.hide();
 			self.text_width = 0;
@@ -1139,7 +1148,7 @@ function ADVScene ()
 			{
 				self.text_cnt++;
 			}
-			var time_need = self.text_speed*next_width;
+			var time_need = self.text_speed*next_need;
 			if (self.stat == ADV_STAT.SKIP_SCENE || self.text_cnt >= time_need)
 			{
 				self.text_cnt -= time_need;
@@ -1298,9 +1307,11 @@ function ADVScene ()
 	
 	self.get_clear_image = function ()
 	{
-		var ret = [];
-		for (var i=0; i<self.image.length; i++)
+		var ret = {};
+		for (var id in self.image)
 		{
+			var img = self.image[id];
+			var i = img.id;
 			ret[i] = clone_hash(self.image[i]);
 			delete ret[i].div;
 		}
@@ -1377,6 +1388,42 @@ function ADVScene ()
 		}
 	}
 	
+	self.set_hidden = function (flag, args)
+	{
+		if (self.scene.display == ADV_DISPLAY.DIALOG)
+		{
+			if (is_animating(self.dialog_div))
+			{
+				self.dialog_div.stop(false, false);
+			}
+			if (flag)
+			{
+				self.dialog_div.fadeOut();
+			}
+			else
+			{
+				self.dialog_div.fadeIn();
+			}
+			self.is_hide = flag;
+		}
+		else if (self.scene.display == ADV_DISPLAY.BRANCH)
+		{
+			if (is_animating(self.branch_div))
+			{
+				self.branch_div.stop(false, false);
+			}
+			if (flag)
+			{
+				self.branch_div.fadeOut();
+			}
+			else
+			{
+				self.branch_div.fadeIn();
+			}
+			self.is_hide = flag;
+		}
+	}
+	
 	self.mousedown = function (event)
 	{
 		if (event.button == MOUSE_RIGHT)
@@ -1388,6 +1435,10 @@ function ADVScene ()
 					self.is_history = false;
 				});
 			}
+			else if (self == scene)
+			{
+				self.set_hidden(!self.is_hide);
+			}
 			return false;
 		}
 	}
@@ -1396,6 +1447,11 @@ function ADVScene ()
 	{
 		if (self.is_history)
 		{
+			return;
+		}
+		if (self.is_hide)
+		{
+			self.set_hidden(false);
 			return;
 		}
 		switch (self.stat)

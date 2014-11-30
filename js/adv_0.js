@@ -1,4 +1,6 @@
 
+var ADV_END = 0;
+
 var ADV_DISPLAY = {
 	DIALOG: 1, 
 	CHANGE_CHAPTER: 2, 
@@ -39,9 +41,9 @@ var BG_INHERIT = {
 	display: ADV_BG.INHERIT, 
 };
 
-var BG_MOON = {
+var BG_ASGRARD = {
 	display: ADV_BG.IMAGE, 
-	image: 'BG_MOON', 
+	image: 'ASGRARD', 
 };
 
 var CG_NONE = {
@@ -55,11 +57,6 @@ var CG_INHERIT = {
 var CG_DOG_DAYS = {
 	display: ADV_CG.IMAGE, 
 	image: 'CG_DOG_DAYS', 
-};
-
-var CG_LILY = {
-	display: ADV_CG.IMAGE, 
-	image: 'CG_LILY', 
 };
 
 var BGM_NONE = {
@@ -81,8 +78,8 @@ var IMAGE_BASE = {
 	bottom: '0px', 
 };
 
-var IMAGE_CHEN = clone_hash(IMAGE_BASE, {
-	image: 'IMAGE_CHEN_NORMAL', 
+var IMAGE_TEREA = clone_hash(IMAGE_BASE, {
+	image: 'IMAGE_TEREA', 
 	height: '500px', 
 });
 
@@ -146,26 +143,10 @@ var adv_template_talk_none = clone_hash(adv_template_talk, {
 var adv_template_talk_other = clone_hash(adv_template_talk, {
 });
 
-var adv_template_talk_chen = clone_hash(adv_template_talk, {
-	name: "陳冠宇", 
+var adv_template_talk_dai = clone_hash(adv_template_talk, {
+	name: "妲伊", 
 });
 
-var adv_template_talk_wu = clone_hash(adv_template_talk, {
-	name: "吳雅涵", 
-});
-
-var adv_template_talk_liu = clone_hash(adv_template_talk, {
-	name: "劉佳穎", 
-});
-
-var adv_template_talk_lin = clone_hash(adv_template_talk, {
-	name: "林怡萱", 
-});
-
-var adv_template_talk_hon = clone_hash(adv_template_talk, {
-	name: "洪裕傑", 
-});
-
-var adv_template_talk_tsai = clone_hash(adv_template_talk, {
-	name: "蔡詩芸", 
+var adv_template_talk_terea = clone_hash(adv_template_talk, {
+	name: "忒蕾雅", 
 });

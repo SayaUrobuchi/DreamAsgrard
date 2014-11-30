@@ -2,8 +2,13 @@
 
 #adv_main
 {
+	position: absolute;
+	left: 0px;
+	top: 0px;
 	width: 100%;
 	height: 100%;
+	z-index: 180000;
+	background-color: #883030;
 }
 
 #adv_main #dialog
