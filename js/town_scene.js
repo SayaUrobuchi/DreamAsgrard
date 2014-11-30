@@ -10,9 +10,10 @@ function TownScene (args)
 	var STATE = {
 		READY: 0, 
 		EXIT: 1, 
-		SELECT_TEAM: 2, 
-		ENTERING_BATTLE: 3, 
-		HERO_LIST: 4, 
+		WAIT: 2, 
+		SELECT_TEAM: 8, 
+		ENTERING_BATTLE: 9, 
+		HERO_LIST: 10, 
 	};
 	
 	self.start = function ()
@@ -88,6 +89,10 @@ function TownScene (args)
 		case LOC_TEAM:
 			self.update_team();
 			break;
+		// 觀看角色詳細情報
+		case LOC_HERO_DETAIL:
+			self.update_hero_detail();
+			break;
 		case LOC_EXIT:
 			// TODO: waiting for fadeout animation? no fadeout now.
 			scene.pop(self.need_deinit);
@@ -131,6 +136,27 @@ function TownScene (args)
 			break;
 		case STATE.EXIT:
 			self.team_deinit();
+			self.state = LOC_UNKNOWN;
+			break;
+		}
+	}
+	
+	self.update_hero_detail = function ()
+	{
+		switch (self.sub_state)
+		{
+		case STATE.READY:
+			// TODO: fake data for dev use
+			data.hero_list[0] = {
+				id: HERO_DAI_2, 
+				level: 50, 
+				exp: 8990, 
+			};
+			self.hero_detail_scene = HeroDetailScene({id: 0, });
+			scene.push(self.hero_detail_scene, true);
+			self.sub_state = STATE.WAIT;
+			break;
+		case STATE.EXIT:
 			self.state = LOC_UNKNOWN;
 			break;
 		}
@@ -381,27 +407,27 @@ function TownScene (args)
 							hero_info_div.append(hero_info_r2_div);
 							
 							var rarity_div = $('<div class="rarity"></div>');
-							rarity_div.text(hero.get_display_rarity);
+							rarity_div.text(hero.get_display_rarity());
 							hero_info_r1_div.append(rarity_div);
 							
 							var level_div = $('<div class="level"></div>');
-							level_div.text(hero.get_display_level);
+							level_div.text(hero.get_display_level());
 							hero_info_r1_div.append(level_div);
 							
 							var type_div = $('<div class="type"></div>');
-							type_div.text(hero.get_display_type);
+							type_div.text(hero.get_display_type());
 							hero_info_r1_div.append(type_div);
 							
 							var relation_div = $('<div class="relation"></div>');
-							relation_div.text(hero.get_display_relation);
+							relation_div.text(hero.get_display_relation());
 							hero_info_r1_div.append(relation_div);
 							
 							var title_div = $('<div class="title pre"></div>');
-							title_div.text(hero.get_display_title);
+							title_div.text(hero.get_display_title());
 							hero_info_r2_div.append(title_div);
 							
 							var name_div = $('<div class="name pre"></div>');
-							name_div.text(hero.get_display_name);
+							name_div.text(hero.get_display_name());
 							hero_info_r2_div.append(name_div);
 						}
 						div.append(hero_info_div);

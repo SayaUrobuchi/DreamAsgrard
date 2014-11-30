@@ -36,10 +36,10 @@ function dai_init ()
 	body.append(main_f);
 	dai_preload();
 	scene = SceneMaid();
-	body.keyup(scene.keyup);
-	body.keydown(scene.keydown);
-	body.keypress(scene.keypress);
-	body.mousedown(scene.right_click);
+	$(document).keyup(scene.key_up);
+	$(document).keydown(scene.key_down);
+	$(document).keypress(scene.key_press);
+	$(document).mousedown(scene.right_click);
 	log(LOG_MSG, "女僕準備完畢！");
 	return true;
 }

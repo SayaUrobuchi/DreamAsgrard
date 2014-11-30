@@ -10,6 +10,12 @@ var UI = {
 	
 	TOWN_QUEST_START_BUTTON_TEST: "出☆擊", 
 	
+	HERO_NEXT_EXP_HEAD: "距離升級尚需經驗：", 
+	HERO_HP_HEAD: "生命", 
+	HERO_ATK_HEAD: "攻擊", 
+	HERO_HEAL_HEAD: "治癒", 
+	HERO_DETAIL_STORY_BACK_BUTTON_TEXT: '回列表', 
+	
 	MANA_WIDTH: 50, 
 	MANA_HEIGHT: 50, 
 	MANA_RELEASE_INTERVAL: 8, 
@@ -133,6 +139,9 @@ var game = {
 	
 	BATTLE_HERO_NUM: 6, 
 	
+	HERO_SUB_SKILL_NUMBER: 3, 
+	HERO_ATTR_NUMBER: 8, 
+	
 	COMBO_RATE: 30, 
 	COLOR_RELEASE_RATE: 30, 
 	COLOR_GOOD_RATE: 140, 
@@ -209,6 +218,8 @@ var data = {
 	flag: {}, 
 	value: {}, 
 	scene_id: 0, 
+	hero_list: [
+	], 
 	team_list: [
 		// DEBUG: SHOULD NOT INIT HERE
 		{
@@ -229,6 +240,15 @@ var global = {
 };
 
 var temp_data = {
+	get_hero: function (id)
+	{
+		if (!temp_data.hero_cache[id])
+		{
+			temp_data.hero_cache[id] = Hero(data.hero_list[id]);
+		}
+		return temp_data.hero_cache[id];
+	}, 
+	hero_cache: {}, 
 };
 
 function add_tip(id)

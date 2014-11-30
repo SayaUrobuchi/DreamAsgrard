@@ -18,6 +18,9 @@ var MOUSE_RIGHT = 2;
 
 var KEY_ENTER = 13;
 var KEY_CTRL = 17;
+var KEY_Z = 90;
+var KEY_X = 88;
+var KEY_C = 67;
 
 function Object ()
 {

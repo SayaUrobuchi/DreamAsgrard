@@ -44,6 +44,9 @@ loc_name_table[LOC_QUEST] = '委託';
 var LOC_TEAM = 2;
 loc_name_table[LOC_TEAM] = '隊伍編成';
 
+var LOC_HERO_DETAIL = 3;
+loc_name_table[LOC_HERO_DETAIL] = '角色詳細';
+
 var AREA_TEMPLATE = {
 	town_id: TOWN_UNKNOWN, 
 	area_id: AREA_UNKNOWN, 
@@ -99,6 +102,13 @@ var area_table = {
 					town_id: TOWN_ASGRARD, 
 					loc_id: LOC_TEAM, 
 					name: '隊伍編制', 
+					condition: ALWAYS_RETURN(true), 
+				}), 
+				// DEBUG: 角色詳細
+				clone_hash(LOC_OPTION_TEMPLATE, {
+					town_id: TOWN_ASGRARD, 
+					loc_id: LOC_HERO_DETAIL, 
+					name: '角色詳細', 
 					condition: ALWAYS_RETURN(true), 
 				}), 
 			], 

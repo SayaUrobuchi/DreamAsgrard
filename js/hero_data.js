@@ -40,7 +40,7 @@ var NO_HERO = clone_hash(HERO_TEMPLATE, {
 
 var hero_table = {
 	1001: clone_hash(HERO_TEMPLATE, {
-		id: 1, 
+		id: 1001, 
 		type: MANA.DARK, 
 		name: "安夏", 
 		icon: IMAGE.HEROT0, 
@@ -49,7 +49,7 @@ var hero_table = {
 		heal: 471, 
 	}), 
 	1002: clone_hash(HERO_TEMPLATE, {
-		id: 2, 
+		id: 1002, 
 		type: MANA.LIGHT, 
 		name: "恩尼斯", 
 		icon: IMAGE.HEROT1, 
@@ -58,7 +58,7 @@ var hero_table = {
 		heal: 885, 
 	}), 
 	1003: clone_hash(HERO_TEMPLATE, {
-		id: 3, 
+		id: 1003, 
 		type: MANA.FIRE, 
 		name: "古藤", 
 		icon: IMAGE.HEROT2, 
@@ -67,7 +67,7 @@ var hero_table = {
 		heal: 777, 
 	}), 
 	1004: clone_hash(HERO_TEMPLATE, {
-		id: 4, 
+		id: 1004, 
 		type: MANA.WATER, 
 		name: "妲伊", 
 		icon: IMAGE.HEROT3, 
@@ -76,7 +76,7 @@ var hero_table = {
 		heal: 353, 
 	}), 
 	1005: clone_hash(HERO_TEMPLATE, {
-		id: 5, 
+		id: 1005, 
 		type: MANA.WOOD, 
 		name: "曙葉", 
 		icon: IMAGE.HEROT4, 
@@ -85,7 +85,7 @@ var hero_table = {
 		heal: 1247, 
 	}), 
 	1006: clone_hash(HERO_TEMPLATE, {
-		id: 6, 
+		id: 1006, 
 		type: MANA.DARK, 
 		name: "小夕", 
 		icon: IMAGE.HEROT5, 
@@ -98,7 +98,19 @@ var hero_table = {
 // 妲伊初始
 var HERO_DAI_0 = 1;
 hero_table[HERO_DAI_0] = clone_hash({
-	id: 1, 
+	id: HERO_DAI_0, 
+	type: MANA.LIGHT, 
+	name: "妲伊", 
+	icon: IMAGE.HEROT3, 
+	hp: 3531, 
+	atk: 16235, 
+	heal: 353, 
+});
+
+// 妲伊三階
+var HERO_DAI_2 = 3;
+hero_table[HERO_DAI_2] = clone_hash({
+	id: HERO_DAI_2, 
 	type: MANA.LIGHT, 
 	name: "妲伊", 
 	icon: IMAGE.HEROT3, 

@@ -50,7 +50,7 @@ function SceneMaid ()
 		{
 			return self.current().key_up(e);
 		}
-		return false;
+		return true;
 	}
 	
 	self.key_down = function (e)
@@ -59,7 +59,7 @@ function SceneMaid ()
 		{
 			return self.current().key_down(e);
 		}
-		return false;
+		return true;
 	}
 	
 	self.key_press = function (e)
@@ -68,7 +68,7 @@ function SceneMaid ()
 		{
 			return self.current().key_press(e);
 		}
-		return false;
+		return true;
 	}
 	
 	self.right_click = function (e)
