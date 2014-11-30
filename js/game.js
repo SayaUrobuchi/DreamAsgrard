@@ -16,6 +16,9 @@ var UI = {
 	HERO_HEAL_HEAD: "治癒", 
 	HERO_DETAIL_STORY_BACK_BUTTON_TEXT: '回列表', 
 	
+	ADV_AUTO: "自動模式", 
+	ADV_SKIP: "快進模式", 
+	
 	MANA_WIDTH: 50, 
 	MANA_HEIGHT: 50, 
 	MANA_RELEASE_INTERVAL: 8, 
