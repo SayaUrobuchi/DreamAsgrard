@@ -6,5 +6,5 @@ var PUZZLE_TEMPLATE = {
 };
 
 var ENEMY_ROUND_TEMPLATE = {
-	enemy: [ENEMY_TEST], 
+	enemy: [ENEMY.TEST], 
 };

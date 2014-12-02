@@ -1,7 +1,7 @@
 
 var town_main = $('<div id="town_main"></div>');
 
-var LOC_EXIT = -1;
+LOC.EXIT = -1;
 
 function TownScene (args)
 {
@@ -60,10 +60,10 @@ function TownScene (args)
 	self.init = function ()
 	{
 		// TODO: 應要能指定載入的區域，開發中先寫死
-		self.town_id = TOWN_ASGRARD;
-		self.area_id = AREA_FALISU;
+		self.town_id = TOWN.ASGRARD;
+		self.area_id = AREA.FALISU;
 		
-		self.state = LOC_UNKNOWN;
+		self.state = LOC.UNKNOWN;
 		
 		self.enter_place({town_id: self.town_id, area_id: self.area_id, });
 	}
@@ -80,32 +80,32 @@ function TownScene (args)
 			return;
 		}
 	
-		if (!data.flag[F_START_STORY])
+		/*if (!data.flag[F_START_STORY])
 		{
 			data.scene_id = ADV_C1.START_ID;
 			var adv = ADVScene();
 			scene.push(adv, true);
-		}
+		}*/
 		
 		switch (self.state)
 		{
 		// 並不在特定功能場所中，預設為四處走動狀態
-		case LOC_UNKNOWN:
+		case LOC.UNKNOWN:
 			// 等待進入特定功能場所，不做任何事
 			break;
 		// 進入關卡前，顯示關卡資料與選擇隊伍等
-		case LOC_QUEST:
+		case LOC.QUEST:
 			self.update_quest();
 			break;
 		// 冒險者隊伍編制
-		case LOC_TEAM:
+		case LOC.TEAM:
 			self.update_team();
 			break;
 		// 觀看角色詳細情報
-		case LOC_HERO_DETAIL:
+		case LOC.HERO_DETAIL:
 			self.update_hero_detail();
 			break;
-		case LOC_EXIT:
+		case LOC.EXIT:
 			// TODO: waiting for fadeout animation? no fadeout now.
 			scene.pop(self.need_deinit);
 			scene.push(self.next_scene, self.need_call_start);
@@ -128,12 +128,12 @@ function TownScene (args)
 			self.need_call_start = true;
 			temp_data.next_stage_id = self.loc_data.stage_id;
 			self.next_scene = BattleScene();
-			self.state = LOC_EXIT;
+			self.state = LOC.EXIT;
 			temp_data.back_to_town_data = null;
 			break;
 		case STATE.EXIT:
 			self.quest_deinit();
-			self.state = LOC_UNKNOWN;
+			self.state = LOC.UNKNOWN;
 			break;
 		}
 	}
@@ -148,7 +148,7 @@ function TownScene (args)
 			break;
 		case STATE.EXIT:
 			self.team_deinit();
-			self.state = LOC_UNKNOWN;
+			self.state = LOC.UNKNOWN;
 			break;
 		}
 	}
@@ -160,7 +160,7 @@ function TownScene (args)
 		case STATE.READY:
 			// TODO: fake data for dev use
 			data.hero_list[0] = {
-				id: HERO_DAI_2, 
+				id: HERO.DAI_2, 
 				level: 50, 
 				exp: 8990, 
 			};
@@ -169,7 +169,7 @@ function TownScene (args)
 			self.sub_state = STATE.WAIT;
 			break;
 		case STATE.EXIT:
-			self.state = LOC_UNKNOWN;
+			self.state = LOC.UNKNOWN;
 			break;
 		}
 	}
@@ -560,8 +560,8 @@ function TownScene (args)
 	{
 		switch (self.state)
 		{
-		case LOC_QUEST:
-		case LOC_TEAM:
+		case LOC.QUEST:
+		case LOC.TEAM:
 			self.sub_state = STATE.EXIT;
 			break;
 		}

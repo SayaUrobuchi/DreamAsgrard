@@ -1,8 +1,8 @@
 
-var ADV_C1 = {
-	START_ID: 1, 
-};
-var _id = ADV_C1.START_ID;
+var _id;
+
+// 阿斯嘉特入城前夕 - 城郊外的戰鬥前
+_id = STORY.BEFORE_ENTER_ASGRARD_0 = 1;
 
 adv_data.add(clone_hash(adv_template_chapter, {
 	id: _id++, 

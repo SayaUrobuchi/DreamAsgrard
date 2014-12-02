@@ -14,8 +14,8 @@ var START = {
 //var START_FLAG = START.NORMALLY;
 //var START_FLAG = START.ADVTEST;
 //var START_FLAG = START.SKIP_OP;
-//var START_FLAG = START.BATTLE_TEST;
-var START_FLAG = START.TOWN_TEST;
+var START_FLAG = START.BATTLE_TEST;
+//var START_FLAG = START.TOWN_TEST;
 
 $(document).ready(dai_main);
 
@@ -105,6 +105,7 @@ function dai_start ()
 		break;
 	case START.BATTLE_TEST:
 		log(LOG_MSG, "無止盡的戰鬥");
+		temp_data.next_stage_id = STAGE.BEFORE_ENTER_ASGRARD;
 		scene.push(BattleScene(), true);
 		break;
 	case START.TOWN_TEST:

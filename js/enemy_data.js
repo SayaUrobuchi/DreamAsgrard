@@ -4,8 +4,8 @@ var ENEMY_TEMPLATE = {
 };
 
 var enemy_table = {
-	1: clone_hash(ENEMY_TEMPLATE, {
-		id: 1, 
+	1001: clone_hash(ENEMY_TEMPLATE, {
+		id: 1001, 
 		name: '好人．大☆薯', 
 		type: MANA.DARK, 
 		full_image: IMAGE.MONSTER1, 
@@ -17,8 +17,8 @@ var enemy_table = {
 		atk: 12256, 
 		cd: 18000, 
 	}), 
-	1000: clone_hash(ENEMY_TEMPLATE, {
-		id: 1000, 
+	1002: clone_hash(ENEMY_TEMPLATE, {
+		id: 1002, 
 		name: '大☆叔', 
 		type: MANA.LIGHT, 
 		full_image: IMAGE.MONSTER0, 
@@ -32,5 +32,9 @@ var enemy_table = {
 	}), 
 };
 
-var ENEMY_TEST = enemy_table[1000];
-var ENEMY_GOODMAN = enemy_table[1];
+var ENEMY = {};
+
+ENEMY.TEST = 1002;
+ENEMY.TEST_GOODMAN = 1001;
+
+

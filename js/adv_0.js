@@ -1,6 +1,8 @@
 
 var ADV_END = 0;
 
+var STORY = {};
+
 var ADV_DISPLAY = {
 	DIALOG: 1, 
 	CHANGE_CHAPTER: 2, 

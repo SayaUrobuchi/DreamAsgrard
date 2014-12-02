@@ -154,20 +154,12 @@ function TitleScene ()
 				if (!self.loading_scene)
 				{
 					self.loading_scene = LoadingScene();
-					self.loading_scene.start();
-					main_f.append(loading_main);
+					scene.push(self.loading_scene, true);
 				}
-				self.loading_scene.progress = (image.__cnt+audio.__cnt)*1.0/(image.__max_cnt+audio.__max_cnt);
-				self.loading_scene.update();
-				if (self.loading_scene.completed)
-				{
-					image.__preloaded = true;
-					audio.__preloaded = true;
-					loading_main.remove();
-					self.stage = TITLE.TITLE_FIN;
-					self.fcnt = 0;
-				}
+				return;
 			}
+			self.stage = TITLE.TITLE_FIN;
+			self.fcnt = 0;
 			break;
 		case TITLE.TITLE_FIN:
 			self.title_div.show();

@@ -34,11 +34,10 @@ skill_wakeup/sp_skill_wakeup
 effort
 */
 
-var NO_HERO = clone_hash(HERO_TEMPLATE, {
-	id: 0, 
-});
-
 var hero_table = {
+	0: clone_hash(HERO_TEMPLATE, {
+		id: 0, 
+	}), 
 	1001: clone_hash(HERO_TEMPLATE, {
 		id: 1001, 
 		type: MANA.DARK, 
@@ -95,10 +94,13 @@ var hero_table = {
 	}), 
 };
 
+var HERO = {
+	NONE: 0, 
+};
+
 // 妲伊初始
-var HERO_DAI_0 = 1;
-hero_table[HERO_DAI_0] = clone_hash({
-	id: HERO_DAI_0, 
+hero_table[HERO.DAI_0 = 1] = clone_hash({
+	id: HERO.DAI_0, 
 	type: MANA.LIGHT, 
 	name: "妲伊", 
 	icon: IMAGE.HEROT3, 
@@ -106,11 +108,9 @@ hero_table[HERO_DAI_0] = clone_hash({
 	atk: 16235, 
 	heal: 353, 
 });
-
 // 妲伊三階
-var HERO_DAI_2 = 3;
-hero_table[HERO_DAI_2] = clone_hash({
-	id: HERO_DAI_2, 
+hero_table[HERO.DAI_2 = 3] = clone_hash({
+	id: HERO.DAI_2, 
 	type: MANA.LIGHT, 
 	name: "妲伊", 
 	icon: IMAGE.HEROT3, 

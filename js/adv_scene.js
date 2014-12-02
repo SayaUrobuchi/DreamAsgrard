@@ -317,20 +317,7 @@ function ADVScene ()
 			if (!self.loading_scene)
 			{
 				self.loading_scene = LoadingScene();
-				self.loading_scene.start();
-				main_f.append(loading_main);
-			}
-			self.loading_scene.progress = (image.__cnt+audio.__cnt)*1.0/(image.__max_cnt+audio.__max_cnt);
-			self.loading_scene.update();
-			if (self.loading_scene.completed)
-			{
-				image.__preloaded = true;
-				audio.__preloaded = true;
-				loading_main.remove();
-			}
-			else
-			{
-				return;
+				scene.push(self.loading_scene, true);
 			}
 		}
 		

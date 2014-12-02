@@ -24,9 +24,7 @@ var KEY_C = 67;
 
 function Object ()
 {
-	var self = function ()
-	{
-	};
+	var self = {};
 	
 	return self;
 }

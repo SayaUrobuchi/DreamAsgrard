@@ -158,8 +158,6 @@ function BattleScene()
 	
 	self.init = function ()
 	{
-		self.current_scene = self;
-		
 		// mana / info related
 		self.set_turn(1);
 		self.mana_count_table = [];
@@ -220,7 +218,7 @@ function BattleScene()
 		if (!self.stage_id)
 		{
 			log(LOG_WARNING, "未指定關卡ID便跳至戰鬥！");
-			self.stage_id = 1;
+			self.stage_id = 1001;
 		}
 		self.stage = Stage(puzzle_stage_table[self.stage_id]);
 	}
@@ -232,39 +230,30 @@ function BattleScene()
 	
 	self.update = function ()
 	{
-		// if subscene running
-		if (self.current_scene != self)
+		if (scene.current() != self)
 		{
-			self.current_scene.update();
-			if (self.current_scene.finished)
-			{
-				self.current_scene.div.remove();
-				self.current_scene = self;
-			}
 			return;
 		}
-	
+		
+		if (!self.before_battle_flag)
+		{
+			self.before_battle_flag = true;
+			if (self.stage.get_before_story())
+			{
+				data.scene_id = self.stage.get_before_story();
+				var adv = ADVScene();
+				scene.push(adv, true);
+				return;
+			}
+		}
+		
 		// if not pre-loaded, do it.
 		if (!image.__preloaded || !audio.__preloaded)
 		{
 			if (!self.loading_scene)
 			{
 				self.loading_scene = LoadingScene();
-				self.loading_scene.start();
-				main_f.append(loading_main);
-				battle_main.hide();
-			}
-			self.loading_scene.progress = (image.__cnt+audio.__cnt)*1.0/(image.__max_cnt+audio.__max_cnt);
-			self.loading_scene.update();
-			if (self.loading_scene.completed)
-			{
-				image.__preloaded = true;
-				audio.__preloaded = true;
-				loading_main.remove();
-				battle_main.show();
-			}
-			else
-			{
+				scene.push(self.loading_scene, true);
 				return;
 			}
 		}
@@ -295,7 +284,7 @@ function BattleScene()
 			var width = 0;
 			for(var i=0; i<round.enemy.length; i++)
 			{
-				var enemy = Enemy(round.enemy[i]);
+				var enemy = Enemy(enemy_table[round.enemy[i]]);
 				self.enemy.push(enemy);
 				width += enemy.data.width;
 				self.battle_enemy_div.append(enemy.dom);

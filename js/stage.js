@@ -29,6 +29,11 @@ function Stage (data)
 		return UI.TOWN_QUEST_START_BUTTON_TEST;
 	}
 	
+	self.get_before_story = function ()
+	{
+		return self.data.before_story;
+	}
+	
 	self.init();
 	
 	return self;

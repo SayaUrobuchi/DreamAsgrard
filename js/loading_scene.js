@@ -45,10 +45,25 @@ function LoadingScene ()
 			self.container.append(self.loading_progress_div);
 		}
 		loading_main.append(self.container);
+		
+		main_f.append(loading_main);
+	}
+	
+	self.deinit = function ()
+	{
+		loading_main.remove();
 	}
 	
 	self.update = function ()
 	{
+		if (self.completed)
+		{
+			scene.pop(true);
+			return;
+		}
+		
+		self.progress = (image.__cnt+audio.__cnt)*1.0/(image.__max_cnt+audio.__max_cnt);
+		
 		self.loading_text_cnt++;
 		if (self.loading_text_cnt >= LOADING_DOT_TIME)
 		{
@@ -94,6 +109,8 @@ function LoadingScene ()
 				if (self.fcnt >= LOADING_POST_DELAY)
 				{
 					self.completed = true;
+					image.__preloaded = true;
+					audio.__preloaded = true;
 				}
 			}
 		}
