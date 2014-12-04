@@ -570,15 +570,18 @@ var audio = {
 };
 
 var IMAGE = {
-	MONSTER0: "p/吳名士_W2.PNG", 
-	MONSTER1: "p/吳名士_W.JPG", 
+	W_ANSYA: "p/安夏_H.PNG", 
+	W_ENNISU: "p/恩尼斯_H.PNG", 
+	W_FURUBUJI: "p/古藤_H.JPG", 
+	W_DAI: "p/妲伊_H.JPG", 
+	W_SYUE: "p/曙葉_H.JPG", 
+	W_SICHAN: "p/小夕_H.PNG", 
+	W_WUMINSI2: "p/吳名士_W2.PNG", 
+	W_WUMINSI: "p/吳名士_W.JPG", 
 	
-	HEROT0: "p/安夏_H.PNG", 
-	HEROT1: "p/恩尼斯_H.PNG", 
-	HEROT2: "p/古藤_H.JPG", 
-	HEROT3: "p/妲伊_H.JPG", 
-	HEROT4: "p/曙葉_H.JPG", 
-	HEROT5: "p/小夕_H.PNG", 
+	E_HIYOKO: "p/E_hiyoko.png", 
+	E_BAT: "p/E_bat.png", 
+	E_WOLF: "p/E_wolf.png", 
 	
 	BG_CASTLE: "p/BG_Castle.jpg", 
 	

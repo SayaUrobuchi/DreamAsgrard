@@ -34,6 +34,16 @@ function Stage (data)
 		return self.data.before_story;
 	}
 	
+	self.get_win_story = function ()
+	{
+		return self.data.win_story;
+	}
+	
+	self.get_lose_story = function ()
+	{
+		return self.data.lose_story;
+	}
+	
 	self.init();
 	
 	return self;

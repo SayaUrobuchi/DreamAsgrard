@@ -8,6 +8,9 @@ function BattleScene()
 	var STATE = {
 		READY: 0, 
 		EXIT: 1, 
+		BEFORE_STORY: 2, 
+		WIN_STORY: 3, 
+		LOSE_STORY: 4, 
 		
 		ROUND_START: 10, 
 		PREPARE: 11, 
@@ -182,13 +185,18 @@ function BattleScene()
 		self.enemy_attack_event = [];
 		
 		// hero related
-		self.hero = [Hero(hero_table[1001]), Hero(hero_table[1002]), Hero(hero_table[1003]), 
-			Hero(hero_table[1004]), Hero(hero_table[1005]), Hero(hero_table[1006]), ];
+		self.hero = temp_data.current_battle_team;
+		if (!self.hero)
+		{
+			log(LOG_WARNING, "未設定戰鬥用隊伍！自動採用測試隊伍。");
+			self.hero = [Hero(hero_table[1001]), Hero(hero_table[1002]), Hero(hero_table[1003]), 
+				Hero(hero_table[1004]), Hero(hero_table[1005]), Hero(hero_table[1006]), ];
+		}
 		self.hero_leader = self.hero[0];
 		self.hero_helper = self.hero[5];
 		self.hero_hp_max = 0;
 		self.hero_heal = 0;
-		for (var i=0; i<6; i++)
+		for (var i=0; i<self.hero.length; i++)
 		{
 			self.hero_icon_container.append(self.hero[i].dom);
 			if (self.hero[i] == self.hero_helper)
@@ -235,18 +243,6 @@ function BattleScene()
 			return;
 		}
 		
-		if (!self.before_battle_flag)
-		{
-			self.before_battle_flag = true;
-			if (self.stage.get_before_story())
-			{
-				data.scene_id = self.stage.get_before_story();
-				var adv = ADVScene();
-				scene.push(adv, true);
-				return;
-			}
-		}
-		
 		// if not pre-loaded, do it.
 		if (!image.__preloaded || !audio.__preloaded)
 		{
@@ -264,13 +260,31 @@ function BattleScene()
 		case STATE.READY:
 			self.set_board_mask(false);
 			self.fit_board();
-			self.state = STATE.ROUND_START;
+			self.state = STATE.BEFORE_STORY;
 			break;
 		case STATE.EXIT:
 			// TODO: maybe return to ADV scene before back to town.
 			// TODO: maybe have fadeout animation?
 			scene.pop(true);
 			scene.push(TownScene(), true);
+			break;
+		case STATE.BEFORE_STORY:
+			var id = self.stage.get_before_story();
+			self.insert_adv(id);
+			self.state = STATE.ROUND_START;
+			return;
+			break;
+		case STATE.WIN_STORY:
+			var id = self.stage.get_win_story();
+			self.insert_adv(id);
+			self.state = STATE.EXIT;
+			return;
+			break;
+		case STATE.LOSE_STORY:
+			var id = self.stage.get_lose_story();
+			self.insert_adv(id);
+			self.state = STATE.EXIT;
+			return;
 			break;
 		case STATE.ROUND_START:
 			self.round++;
@@ -367,7 +381,7 @@ function BattleScene()
 				// lose
 				log(LOG_MSG, 'LOSE..');
 				// TODO: maybe need to add gameover scene
-				self.state = STATE.EXIT;
+				self.state = STATE.LOSE_STORY;
 			}
 			// 否則理論上是敵全滅
 			else if (self.is_stage_clear())
@@ -375,7 +389,7 @@ function BattleScene()
 				// win
 				log(LOG_MSG, 'WIN!!!');
 				// TODO: maybe need to add winning and result analytics scene
-				self.state = STATE.EXIT;
+				self.state = STATE.WIN_STORY;
 			}
 			break;
 		}
@@ -406,7 +420,7 @@ function BattleScene()
 		*/
 		if (self.is_game_over())
 		{
-			//self.state = STATE.STAGE_END;
+			self.state = STATE.STAGE_END;
 		}
 	}
 	
@@ -457,7 +471,7 @@ function BattleScene()
 					}
 					else
 					{
-						for (var i=0; i<game.BATTLE_HERO_NUM; i++)
+						for (var i=0; i<self.hero.length; i++)
 						{
 							var hero = self.hero[i];
 							if (hero.check_type(type))
@@ -563,7 +577,7 @@ function BattleScene()
 	self.before_hero_attack = function ()
 	{
 		self.hero_attack_queue = [];
-		for (var i=0; i<game.BATTLE_HERO_NUM; i++)
+		for (var i=0; i<self.hero.length; i++)
 		{
 			if (self.hero[i].rate > 0)
 			{
@@ -583,6 +597,17 @@ function BattleScene()
 			}
 		}
 		self.enemy_defeat = true;
+	}
+	
+	// 插入ADVScene
+	self.insert_adv = function (id)
+	{
+		if (id)
+		{
+			data.scene_id = id;
+			var adv = ADVScene();
+			scene.push(adv, true);
+		}
 	}
 	
 	self.set_hero_hp = function (hp)

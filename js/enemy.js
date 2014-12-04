@@ -276,12 +276,12 @@ function Enemy (data)
 		var now = self.hp_display;
 		self.is_hp_bar_animating = true;
 		self.hp_bar_div.stop(false, false).animate({
-			width: (hp*100/self.hp_max)+'px', 
+			width: (hp*100/self.hp_max)+'%', 
 		}, {
 			duration: UI.BATTLE_ENEMY_HP_BAR_DAMAGE_ANIMATE_TIME, 
 		});
 		self.hp_bar_back_div.stop(false, false).animate({
-			width: (hp*100/self.hp_max)+'px', 
+			width: (hp*100/self.hp_max)+'%', 
 		}, {
 			duration: UI.BATTLE_ENEMY_HP_BAR_BACK_DAMAGE_ANIMATE_TIME, 
 			complete: function ()

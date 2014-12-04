@@ -29,9 +29,20 @@ puzzle_stage_table[STAGE.BEFORE_ENTER_ASGRARD = 1] = clone_hash(PUZZLE_TEMPLATE,
 	round: [
 		clone_hash(ENEMY_ROUND_TEMPLATE, {
 			enemy: [
-				ENEMY.TEST, 
+				ENEMY.HIYOKO0_LV0, 
+			], 
+		}), 
+		clone_hash(ENEMY_ROUND_TEMPLATE, {
+			enemy: [
+				ENEMY.BAT0_LV0, 
+			], 
+		}), 
+		clone_hash(ENEMY_ROUND_TEMPLATE, {
+			enemy: [
+				ENEMY.WOLF0_LV0, 
 			], 
 		}), 
 	], 
 	before_story: STORY.BEFORE_ENTER_ASGRARD_0, 
+	win_story: STORY.BEFORE_ENTER_ASGRARD_1, 
 });

@@ -1,8 +1,12 @@
 
 var _id;
 
+// STORY ID
+STORY.BEFORE_ENTER_ASGRARD_0 = 1;
+STORY.BEFORE_ENTER_ASGRARD_1 = 8;
+
 // 阿斯嘉特入城前夕 - 城郊外的戰鬥前
-_id = STORY.BEFORE_ENTER_ASGRARD_0 = 1;
+_id = STORY.BEFORE_ENTER_ASGRARD_0;
 
 adv_data.add(clone_hash(adv_template_chapter, {
 	id: _id++, 
@@ -45,6 +49,50 @@ adv_data.add(clone_hash(adv_template_talk_dai, {
 	post_action: [
 		{flag: F_START_STORY, }, 
 	], 
+}));
+
+// 阿斯嘉特入城前夕 - 城郊外的戰鬥後
+_id = STORY.BEFORE_ENTER_ASGRARD_1;
+
+adv_data.add(clone_hash(adv_template_chapter, {
+	id: _id++, 
+	next_scene_id: _id, 
+	main_title: "- 阿斯嘉特西城門外 -", 
+	bgm: BGM_NONE, 
+}));
+
+adv_data.add(clone_hash(adv_template_talk_dai, {
+	id: _id++, 
+	next_scene_id: _id, 
+	text: "「…有些下不了手呢。」", 
+	bg: BG_ASGRARD, 
+	bgm: BGM_FANTASY, 
+	save_title: '前進阿斯嘉特',
+}));
+
+adv_data.add(clone_hash(adv_template_talk_none, {
+	id: _id++, 
+	next_scene_id: _id, 
+	text: "為什麼非得對這些可愛又脆弱的小生物出手呢。如果可以只嚇退牠們…妲伊心中如此想著。", 
+}));
+
+adv_data.add(clone_hash(adv_template_talk_dai, {
+	id: _id++, 
+	next_scene_id: _id, 
+	text: "「唉…修行不足。」", 
+}));
+
+adv_data.add(clone_hash(adv_template_talk_none, {
+	id: _id++, 
+	next_scene_id: _id, 
+	text: "有時候真希望自己可怕一些，能夠減少無謂的死傷。但又不想成為人見人怕的恐怖女子…\n"+
+			"複雜的少女心。", 
+}));
+
+adv_data.add(clone_hash(adv_template_talk_none, {
+	id: _id++, 
+	next_scene_id: ADV_END, 
+	text: "感傷了一會兒後，妲伊甩了甩手上的魔紋槍，繼續向著城門走去。", 
 }));
 
 /*
