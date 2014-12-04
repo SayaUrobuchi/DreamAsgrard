@@ -2,11 +2,11 @@
 var _id;
 
 // STORY ID
-STORY.BEFORE_ENTER_ASGRARD_0 = 1;
-STORY.BEFORE_ENTER_ASGRARD_1 = 8;
+STORY.BEFORE_ENTER_ASGARD_0 = 1;
+STORY.BEFORE_ENTER_ASGARD_1 = 8;
 
 // 阿斯嘉特入城前夕 - 城郊外的戰鬥前
-_id = STORY.BEFORE_ENTER_ASGRARD_0;
+_id = STORY.BEFORE_ENTER_ASGARD_0;
 
 adv_data.add(clone_hash(adv_template_chapter, {
 	id: _id++, 
@@ -19,7 +19,7 @@ adv_data.add(clone_hash(adv_template_talk_dai, {
 	id: _id++, 
 	next_scene_id: _id, 
 	text: "「呼、呼…就在眼前了，阿斯嘉特…」", 
-	bg: BG_ASGRARD, 
+	bg: BG_ASGARD, 
 	bgm: BGM_FANTASY, 
 	save_title: '前進阿斯嘉特',
 }));
@@ -52,7 +52,7 @@ adv_data.add(clone_hash(adv_template_talk_dai, {
 }));
 
 // 阿斯嘉特入城前夕 - 城郊外的戰鬥後
-_id = STORY.BEFORE_ENTER_ASGRARD_1;
+_id = STORY.BEFORE_ENTER_ASGARD_1;
 
 adv_data.add(clone_hash(adv_template_chapter, {
 	id: _id++, 
@@ -65,7 +65,7 @@ adv_data.add(clone_hash(adv_template_talk_dai, {
 	id: _id++, 
 	next_scene_id: _id, 
 	text: "「…有些下不了手呢。」", 
-	bg: BG_ASGRARD, 
+	bg: BG_ASGARD, 
 	bgm: BGM_FANTASY, 
 	save_title: '前進阿斯嘉特',
 }));

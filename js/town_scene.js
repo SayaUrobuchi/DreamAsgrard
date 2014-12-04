@@ -60,7 +60,7 @@ function TownScene (args)
 	self.init = function ()
 	{
 		// TODO: 應要能指定載入的區域，開發中先寫死
-		self.town_id = TOWN.ASGRARD;
+		self.town_id = TOWN.ASGARD;
 		self.area_id = AREA.FALISU;
 		
 		self.state = LOC.UNKNOWN;

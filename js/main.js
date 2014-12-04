@@ -105,7 +105,7 @@ function dai_start ()
 		break;
 	case START.BATTLE_TEST:
 		log(LOG_MSG, "無止盡的戰鬥");
-		temp_data.next_stage_id = STAGE.BEFORE_ENTER_ASGRARD;
+		temp_data.next_stage_id = STAGE.BEFORE_ENTER_ASGARD;
 		temp_data.current_battle_team = [Hero(hero_table[HERO.DAI_0])];
 		scene.push(BattleScene(), true);
 		break;

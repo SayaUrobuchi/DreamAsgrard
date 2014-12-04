@@ -43,9 +43,9 @@ var BG_INHERIT = {
 	display: ADV_BG.INHERIT, 
 };
 
-var BG_ASGRARD = {
+var BG_ASGARD = {
 	display: ADV_BG.IMAGE, 
-	image: 'ASGRARD', 
+	image: 'ASGARD', 
 };
 
 var CG_NONE = {

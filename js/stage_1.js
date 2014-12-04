@@ -22,8 +22,8 @@ var puzzle_stage_table = {
 
 var STAGE = {};
 
-puzzle_stage_table[STAGE.BEFORE_ENTER_ASGRARD = 1] = clone_hash(PUZZLE_TEMPLATE, {
-	id: STAGE.BEFORE_ENTER_ASGRARD, 
+puzzle_stage_table[STAGE.BEFORE_ENTER_ASGARD = 1] = clone_hash(PUZZLE_TEMPLATE, {
+	id: STAGE.BEFORE_ENTER_ASGARD, 
 	name: '前往阿斯嘉特之路', 
 	desc: '阿斯嘉特逐夢行。城郊…不大和平呢。', 
 	round: [
@@ -43,6 +43,6 @@ puzzle_stage_table[STAGE.BEFORE_ENTER_ASGRARD = 1] = clone_hash(PUZZLE_TEMPLATE,
 			], 
 		}), 
 	], 
-	before_story: STORY.BEFORE_ENTER_ASGRARD_0, 
-	win_story: STORY.BEFORE_ENTER_ASGRARD_1, 
+	before_story: STORY.BEFORE_ENTER_ASGARD_0, 
+	win_story: STORY.BEFORE_ENTER_ASGARD_1, 
 });
