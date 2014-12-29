@@ -1,8 +1,8 @@
 
 var battle_main = $('<div id="battle_main"></div>');
 
-var __DEBUG_USING_TEST_TEAM = true;
-var __DEBUG_SKIP_ADV = true;
+var __DEBUG_USING_TEST_TEAM = false;
+var __DEBUG_SKIP_ADV = false;
 
 function BattleScene()
 {
