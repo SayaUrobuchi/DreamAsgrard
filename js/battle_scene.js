@@ -1,6 +1,9 @@
 
 var battle_main = $('<div id="battle_main"></div>');
 
+var __DEBUG_USING_TEST_TEAM = true;
+var __DEBUG_SKIP_ADV = true;
+
 function BattleScene()
 {
 	var self = Scene();
@@ -186,7 +189,7 @@ function BattleScene()
 		
 		// hero related
 		self.hero = temp_data.current_battle_team;
-		if (!self.hero)
+		if (!self.hero || __DEBUG_USING_TEST_TEAM)
 		{
 			log(LOG_WARNING, "未設定戰鬥用隊伍！自動採用測試隊伍。");
 			self.hero = [Hero(hero_table[1001]), Hero(hero_table[1002]), Hero(hero_table[1003]), 
@@ -325,6 +328,7 @@ function BattleScene()
 			else if (self.mask)
 			{
 				self.set_board_mask(false);
+				self.enemy_attack = true;
 			}
 			break;
 		case STATE.CALC_RESULT:
@@ -512,6 +516,7 @@ function BattleScene()
 			if (!self.mask)
 			{
 				self.set_board_mask(true);
+				self.enemy_attack = false;
 			}
 			self.before_hero_attack();
 			self.attacking_state = ATTACKING_STATE.SHOW_BONUS;
@@ -602,7 +607,7 @@ function BattleScene()
 	// 插入ADVScene
 	self.insert_adv = function (id)
 	{
-		if (id)
+		if (id && !__DEBUG_SKIP_ADV)
 		{
 			data.scene_id = id;
 			var adv = ADVScene();
