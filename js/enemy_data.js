@@ -46,7 +46,7 @@ enemy_table[ENEMY.HIYOKO0_LV0 = 1] = clone_hash(ENEMY_TEMPLATE, {
 	width: 240, 
 	bottom: 0, 
 	level: 0, 
-	hp: 122, 
+	hp: 9999999, //122, 
 	def: 10, 
 	atk: 20, 
 	cd: 14000, 

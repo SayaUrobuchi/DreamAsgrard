@@ -43,6 +43,7 @@ puzzle_stage_table[STAGE.BEFORE_ENTER_ASGARD = 1] = clone_hash(PUZZLE_TEMPLATE, 
 			], 
 		}), 
 	], 
+	round_count: 3, 
 	before_story: STORY.BEFORE_ENTER_ASGARD_0, 
 	win_story: STORY.BEFORE_ENTER_ASGARD_1, 
 });

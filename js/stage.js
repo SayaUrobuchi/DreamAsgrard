@@ -8,6 +8,7 @@ function Stage (data)
 	self.init = function ()
 	{
 		self.round = data.round;
+		self.round_count = data.round_count;
 	}
 	
 	self.get_display_name = function ()

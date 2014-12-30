@@ -7,6 +7,12 @@ function Hero (hero_data)
 	{
 		self.hero_data = hero_data;
 		self.data = hero_table[hero_data.id];
+		
+		self.leader_skill = self.get_skill_from_data(self.data.skill.leader);
+		self.ultimate_skill = self.get_skill_from_data(self.data.skill.ultimate);
+		self.attack_skill = self.get_skill_from_data(self.data.skill.attack);
+		self.passive_skill = self.get_skill_from_data(self.data.skill.passive);
+		
 		self.dom = $('<div class="hero"></div>');
 		{
 			// ---- self icon
@@ -19,12 +25,19 @@ function Hero (hero_data)
 			});
 			
 			// ---- rate/dmg msg
-			self.rate_msg_div = $('<div class="rate_msg"></div>');
-			self.dom.append(self.rate_msg_div);
-			set_css(self.rate_msg_div, {
-				color: MANA.COLOR_TABLE[self.data.type], 
-			});
-			self.rate_msg_display = 0;
+			self.rate_msg_display = [];
+			self.rate_msg_div = [];
+			for (var i=0; i<self.attack_skill.length; i++)
+			{
+				var div = $('<div class="rate_msg"></div>');
+				self.rate_msg_div.push(div);
+				self.dom.append(div);
+				set_css(div, {
+					color: MANA.COLOR_TABLE[self.get_attack_skill(i).get_attack_type()], 
+					top: (-20*(i+1))+'px', 
+				});
+				self.rate_msg_display.push(0);
+			}
 			self.rate = 0;
 		}
 	}
@@ -33,39 +46,74 @@ function Hero (hero_data)
 	{
 	}
 	
+	self.get_single_skill_from_data = function (skill)
+	{
+		var ret = clone_hash(skill);
+		ret.obj = Skill(skill.id);
+		ret.obj.owner = self;
+		return ret;
+	}
+	
+	self.get_skill_from_data = function (skill)
+	{
+		if (!skill)
+		{
+			return {
+				id: SKILL.DUMMY, 
+				obj: skill_table[SKILL.DUMMY], 
+			};
+		}
+		var ret;
+		if (!is_array(skill))
+		{
+			return self.get_single_skill_from_data(skill);
+		}
+		ret = [];
+		for (var i=0; i<skill.length; i++)
+		{
+			ret.push(self.get_single_skill_from_data(skill[i]));
+		}
+		return ret;
+	}
+	
 	self.set_rate = function (rate)
 	{
 		self.rate = rate;
 	}
 	
-	self.set_rate_msg = function (rate, suffix)
+	self.set_rate_msg = function (id, rate, suffix)
 	{
 		if (is_ndef(suffix))
 		{
 			suffix = '';
 		}
+		if (rate == self.rate_msg_display[id])
+		{
+			return;
+		}
+		var rate_msg_div = self.rate_msg_div[id];
 		if (!rate)
 		{
-			self.rate_msg_div.fadeOut(UI.BATTLE_HERO_RATE_MSG_FADEOUT_TIME);
-			self.rate_msg_display = 0;
+			rate_msg_div.fadeOut(UI.BATTLE_HERO_RATE_MSG_FADEOUT_TIME);
+			self.rate_msg_display[id] = 0;
 		}
 		else
 		{
-			var now = self.rate_msg_display;
+			var now = self.rate_msg_display[id];
 			var width = self.dom.width();
-			set_css(self.rate_msg_div, {
+			set_css(self.rate_msg_div[id], {
 				fontSize: '25px', 
 			});
-			self.rate_msg_div.stop(false, false).show().animate({
+			rate_msg_div.stop(false, false).show().animate({
 				fontSize: '18px', 
 			}, {
 				duration: UI.BATTLE_HERO_RATE_MSG_ANIMATE_TIME, 
 				step: function (num, tween)
 				{
-					self.rate_msg_display = floor(now + (rate-now)*tween.pos);
-					self.rate_msg_div.text(self.rate_msg_display+suffix);
-					var left = (width-self.rate_msg_div.width())/2;
-					set_css(self.rate_msg_div, {
+					self.rate_msg_display[id] = floor(now + (rate-now)*tween.pos);
+					rate_msg_div.text(self.rate_msg_display[id]+suffix);
+					var left = (width-rate_msg_div.width())/2;
+					set_css(rate_msg_div, {
 						left: left, 
 					});
 				}, 
@@ -73,20 +121,79 @@ function Hero (hero_data)
 		}
 	}
 	
-	self.get_damage = function (field)
+	self.reset_rate_msg = function ()
 	{
-		var res = self.data.atk * self.rate / 100;
+		for (var i=0; i<game.HERO_ATTACK_SKILL_NUMBER; i++)
+		{
+			self.rate_msg_div[i].fadeOut(UI.BATTLE_HERO_RATE_MSG_FADEOUT_TIME);
+		}
+	}
+	
+	self.get_atk = function ()
+	{
+		return self.data.atk;
+	}
+	
+	self.get_attack_skill_around_power = function (id, field)
+	{
+		if (!self.is_attack_skill_unlock(id))
+		{
+			return 0;
+		}
+		var sk = self.get_attack_skill(id);
+		return sk.get_attack_around_power(field);
+	}
+	
+	self.get_damage = function (id, field)
+	{
+		var res = self.get_attack_skill_around_power(id, field);
 		res *= (100 + field.combo_result.combo*game.COMBO_RATE) / 100;
 		var ret = {
 			value: floor(res), 
-			type: self.data.type, 
+			type: self.get_attack_skill(id).get_attack_type(), 
 		};
+		return ret;
+	}
+	
+	self.get_all_damage = function (field)
+	{
+		var ret = [];
+		for (var i=0; i<game.HERO_ATTACK_SKILL_NUMBER; i++)
+		{
+			var dmg = self.get_damage(i, field);
+			if (dmg.value)
+			{
+				ret.push(dmg);
+			}
+		}
 		return ret;
 	}
 	
 	self.check_type = function (type)
 	{
 		return type == self.data.type;
+	}
+	
+	self.get_leader_skill = function ()
+	{
+		return self.data.skill.leader;
+	}
+	
+	self.get_ultimate_skill = function ()
+	{
+	}
+	
+	self.get_attack_skill = function (id)
+	{
+		if (self.is_attack_skill_unlock(id))
+		{
+			return self.attack_skill[id].obj;
+		}
+		return SKILL_DUMMY;
+	}
+	
+	self.get_passive_skill = function ()
+	{
 	}
 	
 	self.get_display_rarity = function ()
@@ -177,17 +284,17 @@ function Hero (hero_data)
 		return '身先士卒、面對逆風也永不言敗的不屈精神，能使士氣高昂。光屬性角色生命力變成200%，全隊伍攻擊力變成200%。嘟嘟嘟嘟嘟嘟嘟嘟嘟嘟嘟嘟嘟嘟嘟嘟嘟嘟嘟嘟嘟嘟嘟嘟嘟嘟嘟嘟嘟嘟嘟嘟嘟嘟嘟嘟嘟嘟嘟';
 	}
 	
-	self.get_display_main_skill_name = function ()
+	self.get_display_ultimate_skill_name = function ()
 	{
 		return '必殺．雷紋螺貫';
 	}
 	
-	self.get_display_main_skill_desc = function ()
+	self.get_display_ultimate_skill_desc = function ()
 	{
 		return '於槍上灌注雷閃之力，將自身連著長槍化為高速旋轉的電鑽猛力突進，貫穿一切！消耗100光魔力，造成12000%光傷害。';
 	}
 	
-	self.get_display_sub_skill_name = function (id)
+	self.get_display_attack_skill_name = function (id)
 	{
 		switch (id)
 		{
@@ -202,7 +309,7 @@ function Hero (hero_data)
 		return '__UNKNOWN';
 	}
 	
-	self.get_display_sub_skill_desc = function (id)
+	self.get_display_attack_skill_desc = function (id)
 	{
 		switch (id)
 		{
@@ -217,7 +324,7 @@ function Hero (hero_data)
 		return '__UNKNOWN';
 	}
 	
-	self.get_display_attr_name = function (id)
+	self.get_display_passive_skill_name = function (id)
 	{
 		switch (id)
 		{
@@ -242,7 +349,7 @@ function Hero (hero_data)
 		return '__UNKNOWN';
 	}
 	
-	self.get_display_attr_desc = function (id)
+	self.get_display_passive_skill_desc = function (id)
 	{
 		switch (id)
 		{
@@ -301,6 +408,61 @@ function Hero (hero_data)
 	self.is_story_unlocked = function (id)
 	{
 		return id <= 4;
+	}
+	
+	self.is_skill_unlock_cond = function (skill)
+	{
+		if (is_ndef(skill.cond))
+		{
+			return false;
+		}
+		switch (skill.cond.type)
+		{
+		case SK_UNLOCK.ALWAYS:
+			return true;
+		case SK_UNLOCK.NONE:
+			return false;
+		}
+		return false;
+	}
+	
+	self.is_leader_skill_unlock = function ()
+	{
+		return self.is_skill_unlock_cond(self.leader_skill);
+	}
+	
+	self.is_ultimate_skill_unlock = function ()
+	{
+		return self.is_skill_unlock_cond(self.ultimate_skill);
+	}
+	
+	self.is_attack_skill_unlock = function (id)
+	{
+		if (id < 0 || id >= self.attack_skill.length)
+		{
+			return false;
+		}
+		return self.is_skill_unlock_cond(self.attack_skill[id]);
+	}
+	
+	self.is_passive_skill_unlock = function (id)
+	{
+		if (id < 0 || id >= self.passive_skill.length)
+		{
+			return false;
+		}
+		return self.is_skill_unlock_cond(self.passive_skill[id]);
+	}
+	
+	self.is_skill_unlock_handler = {};
+	self.is_skill_unlock_handler[SK_TYPE.LEADER] = self.is_leader_skill_unlock;
+	self.is_skill_unlock_handler[SK_TYPE.ULTIMATE] = self.is_ultimate_skill_unlock;
+	self.is_skill_unlock_handler[SK_TYPE.ATTACK] = self.is_attack_skill_unlock;
+	self.is_skill_unlock_handler[SK_TYPE.PASSIVE] = self.is_passive_skill_unlock;
+	
+	self.is_skill_unlock = function (type, id)
+	{
+		return self.is_skill_unlock_handler[type](id);
 	}
 	
 	self.init();

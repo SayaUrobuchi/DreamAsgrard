@@ -10,7 +10,9 @@ function ComboResult ()
 		{x: 1, y: 0, }, 
 	];
 	
+	// 總連鎖數
 	self.combo = 0;
+	// 各屬性連鎖表
 	self.combo_table = {
 		1: 0, 
 		2: 0, 
@@ -19,13 +21,20 @@ function ComboResult ()
 		5: 0, 
 		6: 0, 
 	};
+	// 各屬性總消珠數量表
 	self.mana_release_table = clone_hash(self.combo_table);
+	// 各屬性最長消珠數量表
 	self.max_mana_release_table = clone_hash(self.combo_table);
+	// 各屬性消除數量一覽
 	self.color_combo_table = {};
 	for (var i=1; i<=6; i++)
 	{
 		self.color_combo_table[i] = [];
 	}
+	// 所有消除珠的位置
+	self.release_mana = [];
+	// 所有消除依序列表
+	self.release_table = [];
 	
 	self.calc_result = function (board)
 	{
@@ -104,6 +113,10 @@ function ComboResult ()
 					self.color_combo_table[type].push(release);
 					self.mana_release_table[type] += release;
 					self.max_mana_release_table[type] = max(self.max_mana_release_table[type], release);
+					self.release_table.push({
+						type: type, 
+						count: release, 
+					});
 				}
 			}
 		}

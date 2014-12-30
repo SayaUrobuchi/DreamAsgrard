@@ -63,6 +63,14 @@
 	right: 0px;
 }
 
+#battle_main .hero_hp .hp_heal
+{
+	position: absolute;
+	display: inline-block;
+	font-size: 15px;
+	right: 130px;
+}
+
 #battle_main .hero_hp .hp_bar
 {
 	position: absolute;
@@ -164,7 +172,6 @@
 #battle_main .hero .rate_msg
 {
 	position: absolute;
-	top: -20px;
 	width: 100%;
 	text-align: center;
 }

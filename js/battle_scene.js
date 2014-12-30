@@ -1,8 +1,9 @@
 
 var battle_main = $('<div id="battle_main"></div>');
 
-var __DEBUG_USING_TEST_TEAM = false;
-var __DEBUG_SKIP_ADV = false;
+var __DEBUG_USING_TEST_TEAM = true;
+var __DEBUG_SKIP_ADV = true;
+var __DEBUG_INIT_HP_RATE = 20;
 
 function BattleScene()
 {
@@ -92,6 +93,9 @@ function BattleScene()
 								
 								self.hero_hp_max_div = $('<div class="hp_max"></div>');
 								self.hero_hp_container.append(self.hero_hp_max_div);
+								
+								self.hero_hp_heal_div = $('<div class="hp_heal"></div>');
+								self.hero_hp_container.append(self.hero_hp_heal_div);
 							}
 							self.hero_hp_pivot.append(self.hero_hp_container);
 						}
@@ -192,27 +196,43 @@ function BattleScene()
 		if (!self.hero || __DEBUG_USING_TEST_TEAM)
 		{
 			log(LOG_WARNING, "未設定戰鬥用隊伍！自動採用測試隊伍。");
-			self.hero = [Hero(hero_table[1001]), Hero(hero_table[1002]), Hero(hero_table[1003]), 
-				Hero(hero_table[1004]), Hero(hero_table[1005]), Hero(hero_table[1006]), ];
+			self.hero = {
+				0: Hero({id: 1001}), 
+				1: Hero({id: 1002}), 
+				2: Hero({id: 1003}), 
+				3: Hero({id: 1004}), 
+				4: Hero({id: 1005}), 
+				5: Hero({id: 1006}), 
+			};
 		}
 		self.hero_leader = self.hero[0];
 		self.hero_helper = self.hero[5];
 		self.hero_hp_max = 0;
 		self.hero_heal = 0;
-		for (var i=0; i<self.hero.length; i++)
+		for (var i=0; i<game.BATTLE_HERO_NUM; i++)
 		{
-			self.hero_icon_container.append(self.hero[i].dom);
-			if (self.hero[i] == self.hero_helper)
+			if (self.hero[i])
 			{
-				self.hero[i].dom.addClass('helper');
+				self.hero_icon_container.append(self.hero[i].dom);
+				if (self.hero[i] == self.hero_helper)
+				{
+					self.hero[i].dom.addClass('helper');
+				}
+				self.hero_hp_max += self.hero[i].data.hp;
+				self.hero_heal += self.hero[i].data.heal;
 			}
-			self.hero_hp_max += self.hero[i].data.hp;
-			self.hero_heal += self.hero[i].data.heal;
 		}
 		self.hero_hp = self.hero_hp_max;
 		self.hero_hp_display = 0;
-		self.set_hero_hp(self.hero_hp);
+		self.hero_hp_heal_display = 0;
+		var now_hp = self.hero_hp;
+		if (__DEBUG_INIT_HP_RATE > 0)
+		{
+			now_hp = floor(now_hp*__DEBUG_INIT_HP_RATE/100.0);
+		}
+		self.set_hero_hp(now_hp);
 		self.set_hero_hp_max(self.hero_hp_max);
+		self.set_heal_visible(false);
 		
 		// enemy related
 		self.enemy_defeat = false;
@@ -239,6 +259,7 @@ function BattleScene()
 		battle_main.remove();
 	}
 	
+	// 主循環
 	self.update = function ()
 	{
 		if (scene.current() != self)
@@ -266,7 +287,6 @@ function BattleScene()
 			self.state = STATE.BEFORE_STORY;
 			break;
 		case STATE.EXIT:
-			// TODO: maybe return to ADV scene before back to town.
 			// TODO: maybe have fadeout animation?
 			scene.pop(true);
 			scene.push(TownScene(), true);
@@ -428,6 +448,7 @@ function BattleScene()
 		}
 	}
 	
+	// 消落珠時的狀態刷新
 	self.update_falling = function ()
 	{
 		switch (self.falling_state)
@@ -453,8 +474,9 @@ function BattleScene()
 				else
 				{
 					var release_target = self.combo_result.release_mana[self.release_ptr];
-					var type = self.board[release_target[0].x][release_target[0].y].type;
-					var len = release_target.length;
+					var release_data = self.combo_result.release_table[self.combo];
+					var type = release_data.type;
+					var len = release_data.count;
 					self.set_mana_plus_count(type, self.mana_plus_count_table[type]+len);
 					for (var i=0; i<len; i++)
 					{
@@ -470,18 +492,25 @@ function BattleScene()
 					self.set_combo(self.combo+1);
 					if (type == MANA.HEART)
 					{
-						self.heal += limit(floor(self.hero_heal*(100+game.COLOR_RELEASE_RATE*(len-3))/100), 
-							0, Infinity);
+						self.set_heal(self.heal+limit(
+							floor(self.hero_heal*(100+game.COLOR_RELEASE_RATE*(len-3))/100), 
+							0, Infinity));
 					}
 					else
 					{
-						for (var i=0; i<self.hero.length; i++)
+						for (var i=0; i<game.BATTLE_HERO_NUM; i++)
 						{
 							var hero = self.hero[i];
-							if (hero.check_type(type))
+							for (var j=0; j<game.HERO_ATTACK_SKILL_NUMBER; j++)
 							{
-								hero.set_rate(hero.rate+(100+game.COLOR_RELEASE_RATE*(len-3)));
-								hero.set_rate_msg(hero.rate, '%');
+								if (hero.is_attack_skill_unlock(j))
+								{
+									var dmg_round = hero.get_attack_skill_around_power(j, self);
+									if (dmg_round)
+									{
+										hero.set_rate_msg(j, dmg_round, '');
+									}
+								}
 							}
 						}
 					}
@@ -508,6 +537,7 @@ function BattleScene()
 		}
 	}
 	
+	// 己方攻擊時的狀態刷新
 	self.update_attacking = function ()
 	{
 		switch (self.attacking_state)
@@ -525,7 +555,10 @@ function BattleScene()
 			for (var i=0; i<self.hero_attack_queue.length; i++)
 			{
 				var hero = self.hero_attack_queue[i];
-				hero.set_rate_msg(hero.get_damage(self).value);
+				for (var j=0; j<game.HERO_ATTACK_SKILL_NUMBER; j++)
+				{
+					hero.set_rate_msg(j, hero.get_damage(j, self).value);
+				}
 			}
 			self.attacking_state = ATTACKING_STATE.DO_ATTACK;
 			break;
@@ -536,13 +569,16 @@ function BattleScene()
 				return function ()
 				{
 					self.attack_wait--;
-					self.enemy[0].attacked(self, damage);
+					for (var i=0; i<damage.length; i++)
+					{
+						self.enemy[0].attacked(self, damage[i]);
+					}
 				};
 			};
 			for (var i=0; i<self.hero_attack_queue.length; i++)
 			{
 				var hero = self.hero_attack_queue[i];
-				var damage = hero.get_damage(self);
+				var damage = hero.get_all_damage(self);
 				jump({
 					target: hero.dom, 
 					delay: UI.BATTLE_HERO_ATTACK_INTERVAL*i, 
@@ -550,7 +586,11 @@ function BattleScene()
 				});
 			}
 			var heal = floor(self.heal * (100+game.COMBO_RATE*self.combo_result.combo)/100);
-			self.set_hero_hp(limit(self.hero_hp+heal, 0, self.hero_hp_max));
+			if (heal)
+			{
+				self.set_heal(heal);
+				self.set_hero_hp(limit(self.hero_hp+heal, 0, self.hero_hp_max));
+			}
 			self.attacking_state = ATTACKING_STATE.WAIT_ATTACK;
 			break;
 		case ATTACKING_STATE.WAIT_ATTACK:
@@ -563,7 +603,7 @@ function BattleScene()
 			for (var i=0; i<self.hero_attack_queue.length; i++)
 			{
 				var hero = self.hero_attack_queue[i];
-				hero.set_rate_msg(0);
+				hero.reset_rate_msg();
 				hero.set_rate(0);
 			}
 			self.check_enemy_defeat();
@@ -575,16 +615,19 @@ function BattleScene()
 				self.set_mana_count(i, self.mana_count_table[i]+self.mana_plus_count_table[i]);
 				self.set_mana_plus_count(i, 0);
 			}
+			self.set_heal_visible(false, UI.BATTLE_HERO_HP_HEAL_WAIT_TIME);
 			break;
 		}
 	}
 	
+	// 己方攻擊前置處理
+	// BUG
 	self.before_hero_attack = function ()
 	{
 		self.hero_attack_queue = [];
-		for (var i=0; i<self.hero.length; i++)
+		for (var i=0; i<game.BATTLE_HERO_NUM; i++)
 		{
-			if (self.hero[i].rate > 0)
+			if (self.hero[i].get_all_damage(self).length > 0)
 			{
 				self.hero_attack_queue.push(self.hero[i]);
 			}
@@ -615,6 +658,7 @@ function BattleScene()
 		}
 	}
 	
+	// 改變己方目前血量
 	self.set_hero_hp = function (hp)
 	{
 		self.hero_hp = hp;
@@ -665,6 +709,7 @@ function BattleScene()
 		}
 	}
 	
+	// 改變己方最大血量
 	self.set_hero_hp_max = function (mhp)
 	{
 		var now = self.hero_hp_max;
@@ -677,9 +722,56 @@ function BattleScene()
 			fontSize: '15px', 
 		}, {
 			duration: UI.BATTLE_HERO_HP_MAX_CHANGED_ANIMATE_TIME, 
+			complete: function ()
+			{
+				if (self.hero_hp > self.hero_hp_max)
+				{
+					self.set_hero_hp(self.hero_hp_max);
+				}
+			}, 
 		});
 	}
 	
+	// 顯示治癒量
+	self.set_heal = function (amount)
+	{
+		var now = self.hero_hp_heal_display;
+		self.heal = amount;
+		self.set_heal_visible(true);
+		self.hero_hp_heal_div.text('+'+now);
+		set_css(self.hero_hp_heal_div, {
+			fontSize: '25px', 
+		});
+		self.hero_hp_heal_div.stop(false, false).animate({
+			fontSize: '15px', 
+		}, {
+			duration: UI.BATTLE_HERO_HP_HEAL_ANIMATE_TIME, 
+			step: function (num, tween)
+			{
+				self.hero_hp_heal_display = floor(now + (amount-now)*tween.pos);
+				self.hero_hp_heal_div.text('+'+self.hero_hp_heal_display);
+			}, 
+		});
+	}
+	
+	self.set_heal_visible = function (visible, waiting)
+	{
+		if (!visible)
+		{
+			if (!waiting)
+			{
+				waiting = 0;
+			}
+			self.hero_hp_heal_div.delay(waiting).fadeOut(UI.BATTLE_HERO_HP_HEAL_FADEOUT_TIME);
+		}
+		else
+		{
+			self.hero_hp_heal_div.show();
+		}
+	}
+	
+	// 初始化盤面
+	// TODO: 初始盤面應該要是 0 combo?
 	self.init_board = function ()
 	{
 		self.board = create_2d_array(self.board_height, self.board_width);
@@ -701,12 +793,15 @@ function BattleScene()
 		self.fit_board();
 	}
 	
+	// 隨機生成珠子
+	// TODO: using weight instead.
 	self.generate_new_mana = function ()
 	{
 		var dice = rand(6)+1;
 		return dice;
 	}
 	
+	// 讓盤面因消除而浮空的珠子落下
 	self.tight_board = function ()
 	{
 		self.tight_total = 0;
@@ -749,6 +844,7 @@ function BattleScene()
 		}
 	}
 	
+	// 將盤面空缺補滿
 	self.fit_board = function ()
 	{
 		self.fit_total = 0;
@@ -772,6 +868,7 @@ function BattleScene()
 		}
 	}
 	
+	// 計算連鎖結果
 	self.calculate_combo = function ()
 	{
 		var st = new Date();
@@ -789,10 +886,11 @@ function BattleScene()
 		}
 	}
 	
+	// 顯示回合改變動畫
 	self.set_turn = function (turn)
 	{
 		self.turn = turn;
-		self.turn_div.text(self.turn+' 回合');
+		self.turn_div.text(self.turn+UI.BATTLE_TURN_TEXT);
 		set_css(self.turn_div, {
 			fontSize: '50px', 
 		});
@@ -803,6 +901,7 @@ function BattleScene()
 		});
 	}
 	
+	// 顯示魔力值與動畫
 	self.set_mana_count = function (type, num)
 	{
 		var now = self.mana_count_display[type];
@@ -824,6 +923,7 @@ function BattleScene()
 		});
 	}
 	
+	// 顯示魔力改變值與動畫
 	self.set_mana_plus_count = function (type, num)
 	{
 		if (num > 0)
@@ -857,13 +957,14 @@ function BattleScene()
 		}
 	}
 	
+	// 顯示 combo 字樣
 	self.set_combo = function (combo)
 	{
 		self.combo = combo;
 		if (combo > 0)
 		{
 			self.combo_div.show();
-			self.combo_div.text(combo+"連鎖！");
+			self.combo_div.text(combo+UI.BATTLE_COMBO_TEXT);
 			if (is_animating(self.combo_div))
 			{
 				self.combo_div.stop(false, false);
@@ -892,6 +993,7 @@ function BattleScene()
 		}
 	}
 	
+	// 設定盤面是否可動作。傳入 true 時強制結束拖曳並鎖死盤面
 	self.set_board_mask = function (mask)
 	{
 		self.mask = mask;
@@ -910,6 +1012,7 @@ function BattleScene()
 		}
 	}
 	
+	// 敵攻擊時的處理
 	self.enemy_do_attack = function (dmg)
 	{
 		self.set_hero_hp(limit(self.hero_hp-dmg, 0, self.hero_hp_max));
@@ -921,29 +1024,35 @@ function BattleScene()
 		});
 	}
 	
+	// 判斷是否己方全滅
 	self.is_game_over = function ()
 	{
 		return self.hero_hp <= 0;
 	}
 	
+	// 判斷是否已通過所有關卡
 	self.is_stage_clear = function ()
 	{
-		return self.round > self.stage.round.length;
+		return self.round > self.stage.round_count;
 	}
 	
+	// 滑鼠移動callback
 	self.mmove = function (event)
 	{
+		// 正在拖曳時才關心滑鼠移動
 		if (self.dragging)
 		{
 			var tx = event.pageX-self.orig_page_x;
 			var ty = event.pageY-self.orig_page_y;
 			var new_x = self.start_x+tx;
 			var new_y = self.start_y-ty;
+			// 讓珠子跟隨滑鼠位置
 			set_css(self.dragging.dom, {left: new_x, bottom: new_y, });
 			new_x += UI.MANA_WIDTH/2;
 			new_y += UI.MANA_HEIGHT/2;
 			var dx = 0;
 			var dy = 0;
+			// 計算是否該和其它珠子交換、以及和誰交換
 			if (self.current_x > 0
 				&& new_x < self.range_x - UI.MANA_WIDTH*UI.MANA_DIAG_AREA_RATE)
 			{
@@ -956,6 +1065,7 @@ function BattleScene()
 			}
 			if (dx != 0)
 			{
+				// 斜轉判定：在 x 達標時若 y 超過較鬆懈的斜轉判定線，就認定為斜轉成功
 				if (self.current_y > 0 
 					&& new_y < self.range_y)
 				{
@@ -979,6 +1089,7 @@ function BattleScene()
 				{
 					dy = 1;
 				}
+				// 斜轉補判：在 y 達標時若 x 超過較鬆懈的斜轉判定線，就認定為斜轉成功
 				if (dy != 0)
 				{
 					if (self.current_x > 0 
@@ -993,6 +1104,7 @@ function BattleScene()
 					}
 				}
 			}
+			// 如果有交換判定的話，進行交換的動畫與處理
 			if (dx || dy)
 			{
 				self.drag_moved = true;
@@ -1014,6 +1126,7 @@ function BattleScene()
 		}
 	}
 	
+	// 滑鼠於珠子上按下時的callback
 	self.mdown_on_mana = function (event)
 	{
 		if (self.state == STATE.PREPARE)
@@ -1033,6 +1146,7 @@ function BattleScene()
 		}
 	}
 	
+	// 滑鼠拖曳放開時的callback
 	self.mup = function (event)
 	{
 		if (self.dragging)

@@ -237,26 +237,26 @@ function HeroDetailScene (args)
 					self.hero_main_skill_div = $('<div class="hero_main_skill"></div>');
 					{
 						self.hero_main_skill_name_div = $('<div class="hero_main_skill_name"></div>');
-						self.hero_main_skill_name_div.text(self.hero.get_display_main_skill_name());
+						self.hero_main_skill_name_div.text(self.hero.get_display_ultimate_skill_name());
 						self.hero_main_skill_div.append(self.hero_main_skill_name_div);
 						
 						self.hero_main_skill_desc_div = $('<div class="hero_main_skill_desc"></div>');
-						self.hero_main_skill_desc_div.text(self.hero.get_display_main_skill_desc());
+						self.hero_main_skill_desc_div.text(self.hero.get_display_ultimate_skill_desc());
 						self.hero_main_skill_div.append(self.hero_main_skill_desc_div);
 					}
 					self.hero_skill_list_div.append(self.hero_main_skill_div);
 					
-					for (var i=0; i<game.HERO_SUB_SKILL_NUMBER; i++)
+					for (var i=0; i<game.HERO_ATTACK_SKILL_NUMBER; i++)
 					{
 						var sub_skill = {};
 						sub_skill.hero_sub_skill_div = $('<div class="hero_sub_skill"></div>');
 						{
 							sub_skill.hero_sub_skill_name_div = $('<div class="hero_sub_skill_name"></div>');
-							sub_skill.hero_sub_skill_name_div.text(self.hero.get_display_sub_skill_name(i));
+							sub_skill.hero_sub_skill_name_div.text(self.hero.get_display_attack_skill_name(i));
 							sub_skill.hero_sub_skill_div.append(sub_skill.hero_sub_skill_name_div);
 							
 							sub_skill.hero_sub_skill_desc_div = $('<div class="hero_sub_skill_desc"></div>');
-							sub_skill.hero_sub_skill_desc_div.text(self.hero.get_display_sub_skill_desc(i));
+							sub_skill.hero_sub_skill_desc_div.text(self.hero.get_display_attack_skill_desc(i));
 							sub_skill.hero_sub_skill_div.append(sub_skill.hero_sub_skill_desc_div);
 						}
 						self.hero_skill_list_div.append(sub_skill.hero_sub_skill_div);
@@ -278,17 +278,17 @@ function HeroDetailScene (args)
 				self.hero_attr_list_div = $('<div class="hero_attr_list"></div>');
 				{
 					self.hero_attr_list = [];
-					for (var i=0; i<game.HERO_ATTR_NUMBER; i++)
+					for (var i=0; i<game.HERO_PASSIVE_SKILL_NUMBER; i++)
 					{
 						var attr_div = {};
 						attr_div.hero_attr_div = $('<div class="hero_attr"></div>');
 						{
 							attr_div.hero_attr_name_div = $('<div class="hero_attr_name"></div>');
-							attr_div.hero_attr_name_div.text(self.hero.get_display_attr_name(i));
+							attr_div.hero_attr_name_div.text(self.hero.get_display_passive_skill_name(i));
 							attr_div.hero_attr_div.append(attr_div.hero_attr_name_div);
 							
 							attr_div.hero_attr_desc_div = $('<div class="hero_attr_desc"></div>');
-							attr_div.hero_attr_desc_div.text(self.hero.get_display_attr_desc(i));
+							attr_div.hero_attr_desc_div.text(self.hero.get_display_passive_skill_desc(i));
 							attr_div.hero_attr_div.append(attr_div.hero_attr_desc_div);
 						}
 						self.hero_attr_list_div.append(attr_div.hero_attr_div);

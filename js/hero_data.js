@@ -7,6 +7,7 @@ var HERO_TEMPLATE = {
 	hp: 1, 
 	atk: 1, 
 	heal: 0, 
+	skill: {}, 
 };
 
 /* 資訊：
@@ -34,18 +35,67 @@ skill_wakeup/sp_skill_wakeup
 effort
 */
 
+var NO_SKILL = {
+	id: SKILL.DUMMY, 
+	cond: {
+		type: SK_UNLOCK.NONE, 
+	}, 
+};
+
 var hero_table = {
 	0: clone_hash(HERO_TEMPLATE, {
 		id: 0, 
 	}), 
 	1001: clone_hash(HERO_TEMPLATE, {
 		id: 1001, 
-		type: MANA.DARK, 
-		name: "安夏", 
-		icon: IMAGE.W_ANSYA, 
-		hp: 17763, 
-		atk: 6325, 
-		heal: 471, 
+		type: MANA.WATER, 
+		name: "妲伊", 
+		icon: IMAGE.W_DAI, 
+		hp: 3531, 
+		atk: 16235, 
+		heal: 353, 
+		skill: {
+			leader: {
+				id: SKILL.L_SINSAN, 
+				cond: {
+					type: SK_UNLOCK.ALWAYS, 
+				}, 
+			}, 
+			ultimate: {
+				id: SKILL.U_REIBU, 
+				cond: {
+					type: SK_UNLOCK.ALWAYS, 
+				}, 
+			}, 
+			attack: [
+				{
+					id: SKILL.A_REIIN, 
+					cond: {
+						type: SK_UNLOCK.ALWAYS, 
+					}, 
+				}, 
+				{
+					id: SKILL.A_REISYAN, 
+					cond: {
+						type: SK_UNLOCK.ALWAYS, 
+					}, 
+				}, 
+				{
+					id: SKILL.A_TENREI, 
+					cond: {
+						type: SK_UNLOCK.ALWAYS, 
+					}, 
+				}, 
+			], 
+			passive: [
+				{
+					id: SKILL.P_WOMAN, 
+					cond: {
+						type: SK_UNLOCK.ALWAYS, 
+					}, 
+				}, 
+			], 
+		}, 
 	}), 
 	1002: clone_hash(HERO_TEMPLATE, {
 		id: 1002, 
@@ -55,6 +105,48 @@ var hero_table = {
 		hp: 8581, 
 		atk: 6142, 
 		heal: 885, 
+		skill: {
+			leader: {
+				id: SKILL.L_SINSAN, 
+				cond: {
+					type: SK_UNLOCK.ALWAYS, 
+				}, 
+			}, 
+			ultimate: {
+				id: SKILL.U_REIBU, 
+				cond: {
+					type: SK_UNLOCK.ALWAYS, 
+				}, 
+			}, 
+			attack: [
+				{
+					id: SKILL.A_REIIN, 
+					cond: {
+						type: SK_UNLOCK.ALWAYS, 
+					}, 
+				}, 
+				{
+					id: SKILL.A_REISYAN, 
+					cond: {
+						type: SK_UNLOCK.ALWAYS, 
+					}, 
+				}, 
+				{
+					id: SKILL.A_TENREI, 
+					cond: {
+						type: SK_UNLOCK.ALWAYS, 
+					}, 
+				}, 
+			], 
+			passive: [
+				{
+					id: SKILL.P_WOMAN, 
+					cond: {
+						type: SK_UNLOCK.ALWAYS, 
+					}, 
+				}, 
+			], 
+		}, 
 	}), 
 	1003: clone_hash(HERO_TEMPLATE, {
 		id: 1003, 
@@ -64,15 +156,99 @@ var hero_table = {
 		hp: 10112, 
 		atk: 7777, 
 		heal: 777, 
+		skill: {
+			leader: {
+				id: SKILL.L_SINSAN, 
+				cond: {
+					type: SK_UNLOCK.ALWAYS, 
+				}, 
+			}, 
+			ultimate: {
+				id: SKILL.U_REIBU, 
+				cond: {
+					type: SK_UNLOCK.ALWAYS, 
+				}, 
+			}, 
+			attack: [
+				{
+					id: SKILL.A_REIIN, 
+					cond: {
+						type: SK_UNLOCK.ALWAYS, 
+					}, 
+				}, 
+				{
+					id: SKILL.A_REISYAN, 
+					cond: {
+						type: SK_UNLOCK.ALWAYS, 
+					}, 
+				}, 
+				{
+					id: SKILL.A_TENREI, 
+					cond: {
+						type: SK_UNLOCK.ALWAYS, 
+					}, 
+				}, 
+			], 
+			passive: [
+				{
+					id: SKILL.P_WOMAN, 
+					cond: {
+						type: SK_UNLOCK.ALWAYS, 
+					}, 
+				}, 
+			], 
+		}, 
 	}), 
 	1004: clone_hash(HERO_TEMPLATE, {
 		id: 1004, 
-		type: MANA.WATER, 
-		name: "妲伊", 
-		icon: IMAGE.W_DAI, 
-		hp: 3531, 
-		atk: 16235, 
-		heal: 353, 
+		type: MANA.DARK, 
+		name: "安夏", 
+		icon: IMAGE.W_ANSYA, 
+		hp: 17763, 
+		atk: 6325, 
+		heal: 471, 
+		skill: {
+			leader: {
+				id: SKILL.L_SINSAN, 
+				cond: {
+					type: SK_UNLOCK.ALWAYS, 
+				}, 
+			}, 
+			ultimate: {
+				id: SKILL.U_REIBU, 
+				cond: {
+					type: SK_UNLOCK.ALWAYS, 
+				}, 
+			}, 
+			attack: [
+				{
+					id: SKILL.A_REIIN, 
+					cond: {
+						type: SK_UNLOCK.ALWAYS, 
+					}, 
+				}, 
+				{
+					id: SKILL.A_REISYAN, 
+					cond: {
+						type: SK_UNLOCK.ALWAYS, 
+					}, 
+				}, 
+				{
+					id: SKILL.A_TENREI, 
+					cond: {
+						type: SK_UNLOCK.ALWAYS, 
+					}, 
+				}, 
+			], 
+			passive: [
+				{
+					id: SKILL.P_WOMAN, 
+					cond: {
+						type: SK_UNLOCK.ALWAYS, 
+					}, 
+				}, 
+			], 
+		}, 
 	}), 
 	1005: clone_hash(HERO_TEMPLATE, {
 		id: 1005, 
@@ -82,6 +258,48 @@ var hero_table = {
 		hp: 10143, 
 		atk: 5566, 
 		heal: 1247, 
+		skill: {
+			leader: {
+				id: SKILL.L_SINSAN, 
+				cond: {
+					type: SK_UNLOCK.ALWAYS, 
+				}, 
+			}, 
+			ultimate: {
+				id: SKILL.U_REIBU, 
+				cond: {
+					type: SK_UNLOCK.ALWAYS, 
+				}, 
+			}, 
+			attack: [
+				{
+					id: SKILL.A_REIIN, 
+					cond: {
+						type: SK_UNLOCK.ALWAYS, 
+					}, 
+				}, 
+				{
+					id: SKILL.A_REISYAN, 
+					cond: {
+						type: SK_UNLOCK.ALWAYS, 
+					}, 
+				}, 
+				{
+					id: SKILL.A_TENREI, 
+					cond: {
+						type: SK_UNLOCK.ALWAYS, 
+					}, 
+				}, 
+			], 
+			passive: [
+				{
+					id: SKILL.P_WOMAN, 
+					cond: {
+						type: SK_UNLOCK.ALWAYS, 
+					}, 
+				}, 
+			], 
+		}, 
 	}), 
 	1006: clone_hash(HERO_TEMPLATE, {
 		id: 1006, 
@@ -91,6 +309,48 @@ var hero_table = {
 		hp: 19126, 
 		atk: 9144, 
 		heal: 8, 
+		skill: {
+			leader: {
+				id: SKILL.L_SINSAN, 
+				cond: {
+					type: SK_UNLOCK.ALWAYS, 
+				}, 
+			}, 
+			ultimate: {
+				id: SKILL.U_REIBU, 
+				cond: {
+					type: SK_UNLOCK.ALWAYS, 
+				}, 
+			}, 
+			attack: [
+				{
+					id: SKILL.A_REIIN, 
+					cond: {
+						type: SK_UNLOCK.ALWAYS, 
+					}, 
+				}, 
+				{
+					id: SKILL.A_REISYAN, 
+					cond: {
+						type: SK_UNLOCK.ALWAYS, 
+					}, 
+				}, 
+				{
+					id: SKILL.A_TENREI, 
+					cond: {
+						type: SK_UNLOCK.ALWAYS, 
+					}, 
+				}, 
+			], 
+			passive: [
+				{
+					id: SKILL.P_WOMAN, 
+					cond: {
+						type: SK_UNLOCK.ALWAYS, 
+					}, 
+				}, 
+			], 
+		}, 
 	}), 
 };
 
@@ -99,7 +359,7 @@ var HERO = {
 };
 
 // 妲伊初始
-hero_table[HERO.DAI_0 = 1] = clone_hash({
+hero_table[HERO.DAI_0 = 1] = clone_hash(HERO_TEMPLATE, {
 	id: HERO.DAI_0, 
 	type: MANA.LIGHT, 
 	name: "妲伊", 
@@ -109,7 +369,7 @@ hero_table[HERO.DAI_0 = 1] = clone_hash({
 	heal: 19, 
 });
 // 妲伊三階
-hero_table[HERO.DAI_2 = 3] = clone_hash({
+hero_table[HERO.DAI_2 = 3] = clone_hash(HERO_TEMPLATE, {
 	id: HERO.DAI_2, 
 	type: MANA.LIGHT, 
 	name: "妲伊", 

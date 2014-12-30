@@ -181,9 +181,14 @@ function create_div(args)
 	return res;
 }
 
+function is_array(obj)
+{
+	return $.isArray(obj);
+}
+
 function to_array(obj)
 {
-	if (!$.isArray(obj))
+	if (!is_Array(obj))
 	{
 		obj = [obj];
 	}
@@ -328,6 +333,7 @@ function shake(args)
 	ani3[ani_attr] = bdir+second_str+'px';
 	var recover = function()
 	{
+		target.stop(false, false);
 		target.css(temp.attr, temp.value);
 		if (--temp.count <= 0)
 		{
