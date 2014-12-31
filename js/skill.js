@@ -140,7 +140,7 @@ function Skill (id)
 						overload += r.count-req.base;
 					}
 				}
-				hit = cnt / req.combo;
+				hit = floor(cnt / req.combo);
 			}
 			if (hit < t)
 			{
