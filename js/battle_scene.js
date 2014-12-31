@@ -238,11 +238,6 @@ function BattleScene()
 		self.enemy_defeat = false;
 		self.enemy = [];
 		
-		// board
-		self.board_width = 6;
-		self.board_height = 6;
-		self.init_board();
-		
 		// stage related
 		self.round = 0;
 		self.stage_id = temp_data.next_stage_id;
@@ -252,6 +247,12 @@ function BattleScene()
 			self.stage_id = 1001;
 		}
 		self.stage = Stage(puzzle_stage_table[self.stage_id]);
+		self.mana_weight_table = self.stage.get_mana_weight_table();
+		
+		// board need to know stage first
+		self.board_width = 6;
+		self.board_height = 6;
+		self.init_board();
 	}
 	
 	self.deinit = function ()
@@ -791,23 +792,43 @@ function BattleScene()
 		});
 		// 消除到盤面無法消除，再作為初始盤面
 		var cnt = 0;
-		self.fit_board();
+		self.fit_board(true);
 		// 避免因某些錯誤導致盤面一直可消、陷入死循環
 		while (self.erase_board() && cnt < 100)
 		{
-			self.tight_board();
-			self.fit_board();
+			self.tight_board(true);
+			self.fit_board(true);
 			cnt++;
 		}
+		self.reshow_board();
 		log(LOG_MSG, '經過 '+cnt+' 次消除才達成 0 combo 盤面！');
 	}
 	
 	// 隨機生成珠子
-	// TODO: using weight instead.
 	self.generate_new_mana = function ()
 	{
-		var dice = rand(6)+1;
-		return dice;
+		var total = 0;
+		for (var i=1; i<=MANA.COUNT; i++)
+		{
+			total += self.mana_weight_table[i];
+		}
+		var dice = rand(total);
+		var now = 0;
+		var ret = 0;
+		for (var i=1; i<=MANA.COUNT; i++)
+		{
+			var num = self.mana_weight_table[i];
+			if (num > 0)
+			{
+				now += num;
+				if (now > dice)
+				{
+					ret = i;
+					break;
+				}
+			}
+		}
+		return ret;
 	}
 	
 	// 讓盤面因消除而浮空的珠子落下
@@ -852,6 +873,20 @@ function BattleScene()
 						break;
 					}
 				}
+			}
+		}
+	}
+	
+	self.reshow_board = function ()
+	{
+		for (var i=0; i<self.board_width; i++)
+		{
+			for (var j=0; j<self.board_height; j++)
+			{
+				var mana = self.board[i][j];
+				set_css(mana.dom, {left: i*UI.MANA_WIDTH, bottom: j*UI.MANA_HEIGHT});
+				mana.dom.hide();
+				mana.dom.delay((i*self.board_width+j)*UI.MANA_FIT_DELAY).fadeIn(UI.MANA_APPEAR_TIME);
 			}
 		}
 	}

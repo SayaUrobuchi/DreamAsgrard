@@ -82,7 +82,7 @@ var UI = {
 };
 
 var MANA = {
-	COUNT: 6, 
+	COUNT: 8, 
 
 	NONE: 0, 
 	FIRE: 1, 
@@ -91,6 +91,8 @@ var MANA = {
 	LIGHT: 4, 
 	DARK: 5, 
 	HEART: 6, 
+	VOID: 7, 
+	POISON: 8, 
 	
 	NAME_TABLE: {
 		0: '', 

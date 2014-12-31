@@ -45,6 +45,15 @@ function Stage (data)
 		return self.data.lose_story;
 	}
 	
+	self.get_mana_weight_table = function ()
+	{
+		if (self.data.mana_weight_table)
+		{
+			return clone_hash(self.data.mana_weight_table);
+		}
+		return clone_hash(DEFAULT_MANA_WEIGHT_TABLE);
+	}
+	
 	self.init();
 	
 	return self;
