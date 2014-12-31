@@ -621,12 +621,12 @@ function BattleScene()
 	}
 	
 	// 己方攻擊前置處理
-	// BUG
 	self.before_hero_attack = function ()
 	{
 		self.hero_attack_queue = [];
 		for (var i=0; i<game.BATTLE_HERO_NUM; i++)
 		{
+			// TODO: IMPROVE NEEDED
 			if (self.hero[i].get_all_damage(self).length > 0)
 			{
 				self.hero_attack_queue.push(self.hero[i]);
@@ -771,7 +771,6 @@ function BattleScene()
 	}
 	
 	// 初始化盤面
-	// TODO: 初始盤面應該要是 0 combo?
 	self.init_board = function ()
 	{
 		self.board = create_2d_array(self.board_height, self.board_width);
@@ -790,7 +789,17 @@ function BattleScene()
 			height: self.board_height*UI.MANA_HEIGHT, 
 			width: self.board_width*UI.MANA_WIDTH, 
 		});
+		// 消除到盤面無法消除，再作為初始盤面
+		var cnt = 0;
 		self.fit_board();
+		// 避免因某些錯誤導致盤面一直可消、陷入死循環
+		while (self.erase_board() && cnt < 100)
+		{
+			self.tight_board();
+			self.fit_board();
+			cnt++;
+		}
+		log(LOG_MSG, '經過 '+cnt+' 次消除才達成 0 combo 盤面！');
 	}
 	
 	// 隨機生成珠子
@@ -802,7 +811,7 @@ function BattleScene()
 	}
 	
 	// 讓盤面因消除而浮空的珠子落下
-	self.tight_board = function ()
+	self.tight_board = function (no_anime)
 	{
 		self.tight_total = 0;
 		self.tight_count = 0;
@@ -821,16 +830,19 @@ function BattleScene()
 							var temp = self.board[i][j];
 							self.board[i][j] = self.board[i][k];
 							self.board[i][k] = temp;
-							self.board[i][j].dom.animate({
-								left: i*UI.MANA_WIDTH, 
-								bottom: j*UI.MANA_HEIGHT, 
-							}, {
-								duration: UI.MANA_FALLING_TIME, 
-								complete: function ()
-								{
-									self.tight_count++;
-								}, 
-							});
+							if (!no_anime)
+							{
+								self.board[i][j].dom.animate({
+									left: i*UI.MANA_WIDTH, 
+									bottom: j*UI.MANA_HEIGHT, 
+								}, {
+									duration: UI.MANA_FALLING_TIME, 
+									complete: function ()
+									{
+										self.tight_count++;
+									}, 
+								});
+							}
 							is_all_empty = false;
 							break;
 						}
@@ -845,7 +857,7 @@ function BattleScene()
 	}
 	
 	// 將盤面空缺補滿
-	self.fit_board = function ()
+	self.fit_board = function (no_anime)
 	{
 		self.fit_total = 0;
 		for (var i=0; i<self.board_width; i++)
@@ -857,23 +869,31 @@ function BattleScene()
 				{
 					mana.reset(self.generate_new_mana());
 					set_css(mana.dom, {left: i*UI.MANA_WIDTH, bottom: j*UI.MANA_HEIGHT});
-					mana.dom.hide();
-					mana.dom.delay(self.fit_total*UI.MANA_FIT_DELAY).fadeIn(UI.MANA_APPEAR_TIME, function ()
+					if (!no_anime)
 					{
-						self.fade_finish_count++;
-					});
+						mana.dom.hide();
+						mana.dom.delay(self.fit_total*UI.MANA_FIT_DELAY).fadeIn(UI.MANA_APPEAR_TIME, function ()
+						{
+							self.fade_finish_count++;
+						});
+					}
 					self.fit_total++;
 				}
 			}
 		}
 	}
 	
+	self.erase_board = function ()
+	{
+		self.combo_result = ComboResult();
+		self.combo_result.calc_result(self.board);
+		return self.combo_result.release_mana.length != 0;
+	}
+	
 	// 計算連鎖結果
 	self.calculate_combo = function ()
 	{
-		var st = new Date();
 		self.combo_result.calc_result(self.board);
-		var ed = new Date();
 		self.mana_animating = true;
 		if (self.combo_result.release_mana.length == 0)
 		{
