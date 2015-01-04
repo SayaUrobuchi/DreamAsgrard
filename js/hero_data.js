@@ -311,7 +311,7 @@ var hero_table = {
 		heal: 8, 
 		skill: {
 			leader: {
-				id: SKILL.L_SINSAN, 
+				id: SKILL.L_KINNIKU, 
 				cond: {
 					type: SK_UNLOCK.ALWAYS, 
 				}, 
@@ -367,6 +367,48 @@ hero_table[HERO.DAI_0 = 1] = clone_hash(HERO_TEMPLATE, {
 	hp: 241, 
 	atk: 44, 
 	heal: 19, 
+	skill: {
+		leader: {
+			id: SKILL.L_SINSAN, 
+			cond: {
+				type: SK_UNLOCK.ALWAYS, 
+			}, 
+		}, 
+		ultimate: {
+			id: SKILL.U_REIBU, 
+			cond: {
+				type: SK_UNLOCK.ALWAYS, 
+			}, 
+		}, 
+		attack: [
+			{
+				id: SKILL.A_REIIN, 
+				cond: {
+					type: SK_UNLOCK.ALWAYS, 
+				}, 
+			}, 
+			{
+				id: SKILL.A_REISYAN, 
+				cond: {
+					type: SK_UNLOCK.ALWAYS, 
+				}, 
+			}, 
+			{
+				id: SKILL.A_TENREI, 
+				cond: {
+					type: SK_UNLOCK.ALWAYS, 
+				}, 
+			}, 
+		], 
+		passive: [
+			{
+				id: SKILL.P_WOMAN, 
+				cond: {
+					type: SK_UNLOCK.ALWAYS, 
+				}, 
+			}, 
+		], 
+	}, 
 });
 // 妲伊三階
 hero_table[HERO.DAI_2 = 3] = clone_hash(HERO_TEMPLATE, {

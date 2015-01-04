@@ -1,7 +1,7 @@
 
 function Hero (hero_data)
 {
-	var self = {};
+	var self = Battler();
 	
 	self.init = function ()
 	{
@@ -54,6 +54,7 @@ function Hero (hero_data)
 		return ret;
 	}
 	
+	// BUG: cannot handle empty skill properly.
 	self.get_skill_from_data = function (skill)
 	{
 		if (!skill)
@@ -129,9 +130,22 @@ function Hero (hero_data)
 		}
 	}
 	
+	// BUG: should calculate LEVEL
+	self.get_hp = function ()
+	{
+		return self.data.hp;
+	}
+	
+	// BUG: should calculate LEVEL
 	self.get_atk = function ()
 	{
 		return self.data.atk;
+	}
+	
+	// BUG: should calculate LEVEL
+	self.get_heal = function ()
+	{
+		return self.data.heal;
 	}
 	
 	self.get_attack_skill_around_power = function (id, field)
@@ -176,11 +190,12 @@ function Hero (hero_data)
 	
 	self.get_leader_skill = function ()
 	{
-		return self.data.skill.leader;
+		return self.leader_skill.obj;
 	}
 	
 	self.get_ultimate_skill = function ()
 	{
+		return self.ultimate_skill.obj;
 	}
 	
 	self.get_attack_skill = function (id)
@@ -192,8 +207,13 @@ function Hero (hero_data)
 		return SKILL_DUMMY;
 	}
 	
-	self.get_passive_skill = function ()
+	self.get_passive_skill = function (id)
 	{
+		if (self.is_passive_skill_unlock(id))
+		{
+			return self.passive_skill[id].obj;
+		}
+		return SKILL_DUMMY;
 	}
 	
 	self.get_display_rarity = function ()
@@ -463,6 +483,27 @@ function Hero (hero_data)
 	self.is_skill_unlock = function (type, id)
 	{
 		return self.is_skill_unlock_handler[type](id);
+	}
+	
+	self.add_buff = function (buff_list)
+	{
+		if (self.is_leader_skill_unlock())
+		{
+			if (self.battle_loc == BATTLE_LOC.HERO)
+			{
+				if (self.battle_loc_id == game.TEAM_LEADER || self.battle_loc_id == game.TEAM_HELPER)
+				{
+					self.get_leader_skill().add_buff(buff_list);
+				}
+			}
+		}
+		for (var i=0; i<self.passive_skill.length; i++)
+		{
+			if (self.is_passive_skill_unlock(i))
+			{
+				self.get_passive_skill(i).add_buff(buff_list);
+			}
+		}
 	}
 	
 	self.init();

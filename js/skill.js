@@ -1,5 +1,8 @@
 
 var SK_COND = {
+	NONE: 0, 
+	ALWAYS: 1, 
+	COMBO: 2, 
 };
 
 var SK_TYPE = {
@@ -150,6 +153,11 @@ function Skill (id)
 		var ret = self.get_rate_base() * t * self.owner.get_atk() / 100;
 		ret = floor(ret * (100 + game.COLOR_RELEASE_RATE*(overload)) / 100);
 		return ret;
+	}
+	
+	self.add_buff = function (buff_list)
+	{
+		buff_list.add(Buff(self));
 	}
 	
 	self.init();

@@ -188,7 +188,7 @@ function is_array(obj)
 
 function to_array(obj)
 {
-	if (!is_Array(obj))
+	if (!is_array(obj))
 	{
 		obj = [obj];
 	}

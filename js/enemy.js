@@ -1,11 +1,7 @@
 
 function Enemy (data)
 {
-	var self = {};
-	
-	var CD_DISPLAY_RATE = 100;
-	var CD_SAFE_LINE = 5000;
-	var CD_DANGER_LINE = 2000;
+	var self = Battler();
 	
 	self.init = function ()
 	{
@@ -297,7 +293,7 @@ function Enemy (data)
 	
 	self.refresh_cd_num = function ()
 	{
-		if (self.cd > CD_SAFE_LINE)
+		if (self.cd > UI.CD_SAFE_LINE)
 		{
 			var color = "#00BB00";
 			set_css(self.cd_num_div, {
@@ -305,10 +301,10 @@ function Enemy (data)
 				fontSize: UI.BATTLE_ENEMY_CD_NORMAL_SIZE+'px', 
 			});
 		}
-		else if (self.cd > CD_DANGER_LINE)
+		else if (self.cd > UI.CD_DANGER_LINE)
 		{
-			var r = limit01((CD_SAFE_LINE-self.cd-CD_DANGER_LINE)/CD_SAFE_LINE)*20+200;
-			var g = limit01((self.cd-CD_DANGER_LINE)/CD_SAFE_LINE)*80+120;
+			var r = limit01((UI.CD_SAFE_LINE-self.cd-UI.CD_DANGER_LINE)/UI.CD_SAFE_LINE)*20+200;
+			var g = limit01((self.cd-UI.CD_DANGER_LINE)/UI.CD_SAFE_LINE)*80+120;
 			var rs = (r>>4).toString(16)+(r&15).toString(16);
 			var gs = (g>>4).toString(16)+(g&15).toString(16);
 			var color = "#"+rs+gs+"00";
@@ -319,8 +315,8 @@ function Enemy (data)
 		}
 		else
 		{
-			var r = limit01((CD_DANGER_LINE-self.cd)/CD_DANGER_LINE)*55+200;
-			var g = limit01(self.cd/CD_DANGER_LINE)*80;
+			var r = limit01((UI.CD_DANGER_LINE-self.cd)/UI.CD_DANGER_LINE)*55+200;
+			var g = limit01(self.cd/UI.CD_DANGER_LINE)*80;
 			var rs = (r>>4).toString(16)+(r&15).toString(16);
 			var gs = (g>>4).toString(16)+(g&15).toString(16);
 			var color = "#"+rs+gs+"00";
@@ -338,7 +334,7 @@ function Enemy (data)
 				color: color, 
 			});*/
 		}
-		var display = ceil(self.cd/CD_DISPLAY_RATE);
+		var display = ceil(self.cd/UI.CD_DISPLAY_RATE);
 		self.cd_num_div.text(floor(display/10)+'.'+display%10);
 		self.cd_bar_div.stop(false, false).animate({
 			width: (1-(self.cd/self.cd_max))*100+'%', 

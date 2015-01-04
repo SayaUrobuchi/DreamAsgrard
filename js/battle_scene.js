@@ -3,7 +3,7 @@ var battle_main = $('<div id="battle_main"></div>');
 
 var __DEBUG_USING_TEST_TEAM = true;
 var __DEBUG_SKIP_ADV = true;
-var __DEBUG_INIT_HP_RATE = 20;
+var __DEBUG_INIT_HP_RATE = 100;
 
 function BattleScene()
 {
@@ -192,6 +192,7 @@ function BattleScene()
 		self.enemy_attack_event = [];
 		
 		// hero related
+		// 獲取使用的隊伍
 		self.hero = temp_data.current_battle_team;
 		if (!self.hero || __DEBUG_USING_TEST_TEAM)
 		{
@@ -207,8 +208,20 @@ function BattleScene()
 		}
 		self.hero_leader = self.hero[0];
 		self.hero_helper = self.hero[5];
-		self.hero_hp_max = 0;
-		self.hero_heal = 0;
+		// 套用技能效果
+		self.buff_list = BuffList();
+		for (var i=0; i<game.BATTLE_HERO_NUM; i++)
+		{
+			var hero = self.hero[i];
+			if (hero)
+			{
+				hero.set_battle_loc(BATTLE_LOC.HERO, i);
+				hero.add_buff(self.buff_list);
+			}
+		}
+		// 計算能力值
+		self.hero_base_hp = 0;
+		self.hero_base_heal = 0;
 		for (var i=0; i<game.BATTLE_HERO_NUM; i++)
 		{
 			if (self.hero[i])
@@ -218,10 +231,16 @@ function BattleScene()
 				{
 					self.hero[i].dom.addClass('helper');
 				}
-				self.hero_hp_max += self.hero[i].data.hp;
-				self.hero_heal += self.hero[i].data.heal;
+				var ability = self.hero[i].get_base_ability();
+				ability.set_type(ACTION.BATTLER_ABILITY);
+				self.buff_list.apply(ability);
+				self.hero_base_hp += ability.get_final_hp();
+				self.hero_base_heal += ability.get_final_heal();
+				self.hero[i].set_battle_loc(BATTLE_LOC.HERO, i);
 			}
 		}
+		self.hero_hp_max = self.hero_base_hp;
+		self.hero_heal = self.hero_base_heal;
 		self.hero_hp = self.hero_hp_max;
 		self.hero_hp_display = 0;
 		self.hero_hp_heal_display = 0;
@@ -502,14 +521,17 @@ function BattleScene()
 						for (var i=0; i<game.BATTLE_HERO_NUM; i++)
 						{
 							var hero = self.hero[i];
-							for (var j=0; j<game.HERO_ATTACK_SKILL_NUMBER; j++)
+							if (hero)
 							{
-								if (hero.is_attack_skill_unlock(j))
+								for (var j=0; j<game.HERO_ATTACK_SKILL_NUMBER; j++)
 								{
-									var dmg_round = hero.get_attack_skill_around_power(j, self);
-									if (dmg_round)
+									if (hero.is_attack_skill_unlock(j))
 									{
-										hero.set_rate_msg(j, dmg_round, '');
+										var dmg_round = hero.get_attack_skill_around_power(j, self);
+										if (dmg_round)
+										{
+											hero.set_rate_msg(j, dmg_round, '');
+										}
 									}
 								}
 							}
@@ -628,9 +650,12 @@ function BattleScene()
 		for (var i=0; i<game.BATTLE_HERO_NUM; i++)
 		{
 			// TODO: IMPROVE NEEDED
-			if (self.hero[i].get_all_damage(self).length > 0)
+			if (self.hero[i])
 			{
-				self.hero_attack_queue.push(self.hero[i]);
+				if (self.hero[i].get_all_damage(self).length > 0)
+				{
+					self.hero_attack_queue.push(self.hero[i]);
+				}
 			}
 		}
 	}
@@ -877,6 +902,7 @@ function BattleScene()
 		}
 	}
 	
+	// 重新顯示整個盤面
 	self.reshow_board = function ()
 	{
 		for (var i=0; i<self.board_width; i++)
@@ -907,10 +933,11 @@ function BattleScene()
 					if (!no_anime)
 					{
 						mana.dom.hide();
-						mana.dom.delay(self.fit_total*UI.MANA_FIT_DELAY).fadeIn(UI.MANA_APPEAR_TIME, function ()
-						{
-							self.fade_finish_count++;
-						});
+						mana.dom.delay(self.fit_total*UI.MANA_FIT_DELAY).fadeIn(UI.MANA_APPEAR_TIME, 
+							function ()
+							{
+								self.fade_finish_count++;
+							});
 					}
 					self.fit_total++;
 				}

@@ -62,7 +62,7 @@ skill_table[SKILL.DUMMY = 0] = clone_hash(SKILL_TEMPLATE, {
 	cost: [], 
 });
 
-SKILL_DUMMY = skill_table[SKILL.DUMMY];
+SKILL_DUMMY = Skill(SKILL.DUMMY);
 
 // #LS 領袖技
 skill_table[SKILL.L_SINSAN = 2] = clone_hash(L_SKILL_TEMPLATE, {
@@ -85,11 +85,28 @@ skill_table[SKILL.L_SINSAN = 2] = clone_hash(L_SKILL_TEMPLATE, {
 					value: 200, 
 				},
 			], 
-			target: [
+			battle_loc: SK_TARGET.TEAMMATE, 
+		}, 
+	], 
+});
+skill_table[SKILL.L_KINNIKU = 3] = clone_hash(L_SKILL_TEMPLATE, {
+	id: SKILL.L_KINNIKU, 
+	name: '筋肉YAYA', 
+	desc: '筋肉就是一切！筋肉旋風！筋肉最高──！HP提升200%！', 
+	effect: [
+		{
+			cond: [
 				{
-					type: SK_TARGET.TEAMMATE, 
+					type: SK_COND.ALWAYS, 
 				}, 
 			], 
+			effect: [
+				{
+					type: SK_EFFECT.HP_MUL, 
+					value: 200, 
+				},
+			], 
+			battle_loc: SK_TARGET.TEAMMATE, 
 		}, 
 	], 
 });
@@ -195,8 +212,39 @@ skill_table[SKILL.P_WOMAN = 8192] = clone_hash(P_SKILL_TEMPLATE, {
 	desc: '人類女性。將受到以人類或女性為目標之技能所影響。', 
 	effect: [
 		{
-			type: SK_EFFECT.RACE_APPEND, 
-			value: [SK_RACE.HUMAN, SK_RACE.FEMALE, ], 
+			cond: [
+				{
+					type: SK_COND.ALWAYS, 
+				}, 
+			], 
+			effect: [
+				{
+					type: SK_EFFECT.RACE_APPEND, 
+					value: [SK_RACE.HUMAN, SK_RACE.FEMALE, ], 
+				},
+			], 
+			battle_loc: SK_TARGET.TEAMMATE, 
+		}, 
+	], 
+});
+skill_table[SKILL.P_TANKY = 8193] = clone_hash(P_SKILL_TEMPLATE, {
+	id: SKILL.P_TANKY, 
+	name: '筋肉之美', 
+	desc: '由於筋肉的關係，耐力非同尋常！', 
+	effect: [
+		{
+			cond: [
+				{
+					type: SK_COND.ALWAYS, 
+				}, 
+			], 
+			effect: [
+				{
+					type: SK_EFFECT.HP_MUL, 
+					value: 50, 
+				},
+			], 
+			battle_loc: SK_TARGET.TEAMMATE, 
 		}, 
 	], 
 });
