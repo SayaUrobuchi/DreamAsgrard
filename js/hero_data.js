@@ -311,7 +311,8 @@ var hero_table = {
 		heal: 8, 
 		skill: {
 			leader: {
-				id: SKILL.L_KINNIKU, 
+				//id: SKILL.L_KINNIKU, 
+				id: SKILL.L_SINSAN, 
 				cond: {
 					type: SK_UNLOCK.ALWAYS, 
 				}, 

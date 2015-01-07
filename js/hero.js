@@ -26,6 +26,7 @@ function Hero (hero_data)
 			
 			// ---- rate/dmg msg
 			self.rate_msg_display = [];
+			self.rate_msg_temp = [];
 			self.rate_msg_div = [];
 			for (var i=0; i<self.attack_skill.length; i++)
 			{
@@ -37,6 +38,7 @@ function Hero (hero_data)
 					top: (-20*(i+1))+'px', 
 				});
 				self.rate_msg_display.push(0);
+				self.rate_msg_temp.push(0);
 			}
 			self.rate = 0;
 		}
@@ -46,6 +48,7 @@ function Hero (hero_data)
 	{
 	}
 	
+	// 從單一skill建立skill object
 	self.get_single_skill_from_data = function (skill)
 	{
 		var ret = clone_hash(skill);
@@ -54,6 +57,7 @@ function Hero (hero_data)
 		return ret;
 	}
 	
+	// 從hero data拿取skill data建立skill object
 	// BUG: cannot handle empty skill properly.
 	self.get_skill_from_data = function (skill)
 	{
@@ -77,21 +81,18 @@ function Hero (hero_data)
 		return ret;
 	}
 	
-	self.set_rate = function (rate)
-	{
-		self.rate = rate;
-	}
-	
+	// 顯示一般技攻擊威力數值用
 	self.set_rate_msg = function (id, rate, suffix)
 	{
 		if (is_ndef(suffix))
 		{
 			suffix = '';
 		}
-		if (rate == self.rate_msg_display[id])
+		if (rate == self.rate_msg_temp[id])
 		{
 			return;
 		}
+		self.rate_msg_temp[id] = rate;
 		var rate_msg_div = self.rate_msg_div[id];
 		if (!rate)
 		{
@@ -122,32 +123,46 @@ function Hero (hero_data)
 		}
 	}
 	
+	// 清空顯示的攻擊威力數值
 	self.reset_rate_msg = function ()
 	{
 		for (var i=0; i<game.HERO_ATTACK_SKILL_NUMBER; i++)
 		{
 			self.rate_msg_div[i].fadeOut(UI.BATTLE_HERO_RATE_MSG_FADEOUT_TIME);
+			self.rate_msg_temp[i] = 0;
+			self.rate_msg_display[i] = 0;
 		}
 	}
 	
+	// 計算角色自身生命，不含BUFF/DEBUFF
 	// BUG: should calculate LEVEL
 	self.get_hp = function ()
 	{
 		return self.data.hp;
 	}
 	
+	// 計算角色自身攻擊，不含BUFF/DEBUFF
 	// BUG: should calculate LEVEL
 	self.get_atk = function ()
 	{
 		return self.data.atk;
 	}
 	
+	// 計算角色自身治癒，不含BUFF/DEBUFF
 	// BUG: should calculate LEVEL
 	self.get_heal = function ()
 	{
 		return self.data.heal;
 	}
 	
+	// 計算角色自身在多消珠時的BONUS倍率
+	// BUG: 並非最終版本
+	self.get_extra_color_release_rate = function ()
+	{
+		return game.COLOR_RELEASE_RATE;
+	}
+	
+	// 概算轉珠中獲得的技能基本威力值，不含BUFF/DEBUFF也不計算敵方
 	self.get_attack_skill_around_power = function (id, field)
 	{
 		if (!self.is_attack_skill_unlock(id))
@@ -158,17 +173,34 @@ function Hero (hero_data)
 		return sk.get_attack_around_power(field);
 	}
 	
+	// 計算一般技不計敵狀態的最終威力
 	self.get_damage = function (id, field)
 	{
-		var res = self.get_attack_skill_around_power(id, field);
-		res *= (100 + field.combo_result.combo*game.COMBO_RATE) / 100;
+		var action = self.get_base_ability();
+		action.skill = self.get_attack_skill(id);
+		action.hits = action.skill.get_attack_hits(field);
+		var power = 0;
+		if (action.hits.hit > 0)
+		{
+			action.combo_result = field.combo_result;
+			action.set_type(ACTION.SKILL_CAST);
+			field.buff_list.apply(action);
+			var atk = action.get_final_atk();
+			var base_rate = action.skill.get_rate_base();
+			var combo_rate = 100 + field.combo_result.combo*action.combo_rate;
+			var extra_rate = 100 + action.hits.extra*action.extra_rate;
+			var hits = action.hits.hit;
+			power = atk * (base_rate / 100) * (combo_rate / 100) * (extra_rate / 100) * hits;
+			console.log({atk: atk, base_rate: base_rate, combo_rate: combo_rate, extra_rate: extra_rate, hits: hits});
+		}
 		var ret = {
-			value: floor(res), 
-			type: self.get_attack_skill(id).get_attack_type(), 
+			value: floor(power), 
+			type: action.skill.get_attack_type(), 
 		};
 		return ret;
 	}
 	
+	// 計算所有一般技不計敵狀態的最終威力
 	self.get_all_damage = function (field)
 	{
 		var ret = [];
@@ -183,6 +215,7 @@ function Hero (hero_data)
 		return ret;
 	}
 	
+	// 判斷自身屬性
 	self.check_type = function (type)
 	{
 		return type == self.data.type;

@@ -83,6 +83,8 @@ function Buff (skill)
 			// TODO: multi cond not implemented
 			var cond = effect.cond[0];
 			var apply = false;
+			var ext = 0;
+			var mul = 100;
 			switch (cond.type)
 			{
 			case SK_COND.NONE:
@@ -93,13 +95,21 @@ function Buff (skill)
 			case SK_COND.COMBO:
 				if (action.type == ACTION.SKILL_CAST)
 				{
-					// TODO: 技能發動時需判斷c數
+					var c = action.combo_result.combo;
+					if (c >= cond.value)
+					{
+						apply = true;
+						if (is_def(cond.limit) && c > cond.limit)
+						{
+							c = cond.limit;
+						}
+						ext = (c-cond.value) * cond.incr;
+					}
 				}
 				break;
 			}
 			if (apply)
 			{
-				console.log('apply!');
 				var take_effect = false;
 				var battle_loc = effect.battle_loc;
 				var owner = self.skill.owner;
@@ -124,7 +134,6 @@ function Buff (skill)
 				}
 				if (take_effect)
 				{
-				console.log('take eff');
 					var affected = true;
 					var target = effect.target;
 					if (target)
@@ -133,21 +142,29 @@ function Buff (skill)
 					}
 					if (affected)
 					{
-					console.log('affect');
 						for (var j=0; j<effect.effect.length; j++)
 						{
 							var e = effect.effect[j];
-							console.log(e);
+							var ev = floor((e.value+ext)*mul/100)
 							switch (e.type)
 							{
 							case SK_EFFECT.HP_MUL:
-								chara.hp.mul += e.value;
+								chara.hp.mul.push(ev);
 								break;
 							case SK_EFFECT.ATK_MUL:
-								chara.atk.mul += e.value;
+								chara.atk.mul.push(ev);
 								break;
 							case SK_EFFECT.HEAL_MUL:
-								chara.heal.mul += e.value;
+								chara.heal.mul.push(ev);
+								break;
+							case SK_EFFECT.HP_RATE:
+								chara.hp.rate += ev;
+								break;
+							case SK_EFFECT.ATK_RATE:
+								chara.atk.rate += ev;
+								break;
+							case SK_EFFECT.HEAL_RATE:
+								chara.heal.rate += ev;
 								break;
 							}
 						}
@@ -162,8 +179,9 @@ function Buff (skill)
 	return self;
 }
 
+// IMPORTANT: DO NOT PUT [] IN TEMPLATE
 var ACTION_ABILITY_TEMPLATE = {
-	mul: 0, 
+	rate: 100, 
 	add: 0, 
 	base: 0, 
 };
@@ -176,6 +194,8 @@ function Action ()
 	{
 		self.type = ACTION.NONE;
 		self.battler = [];
+		self.combo_rate = game.COMBO_RATE;
+		self.extra_rate = game.COLOR_RELEASE_RATE;
 	}
 	
 	self.set_type = function (type)
@@ -188,8 +208,11 @@ function Action ()
 		var c = {};
 		
 		c.hp = clone_hash(ACTION_ABILITY_TEMPLATE);
+		c.hp.mul = [];
 		c.atk = clone_hash(ACTION_ABILITY_TEMPLATE);
+		c.atk.mul = [];
 		c.heal = clone_hash(ACTION_ABILITY_TEMPLATE);
+		c.heal.mul = [];
 	
 		c.hp.base = battler.get_hp();
 		c.atk.base = battler.get_atk();
@@ -218,7 +241,12 @@ function Action ()
 	self.calc_final_ability = function (ability)
 	{
 		var res = (ability.base + ability.add);
-		res = floor(res * (100+ability.mul) / 100);
+		console.log(ability);
+		for (var i=0; i<ability.mul.length; i++)
+		{
+			res *= ability.mul[i] / 100;
+		}
+		res = floor(res * ability.rate / 100);
 		return res;
 	}
 	

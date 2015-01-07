@@ -68,7 +68,7 @@ SKILL_DUMMY = Skill(SKILL.DUMMY);
 skill_table[SKILL.L_SINSAN = 2] = clone_hash(L_SKILL_TEMPLATE, {
 	id: SKILL.L_SINSAN, 
 	name: '迅閃連擊', 
-	desc: '迅速、連環又不失精確的打擊。三連鎖以上時，全隊攻擊力增至200%。', 
+	desc: '迅速、連環又不失精確的打擊。三連鎖以上時，全隊攻擊威力變為200%。', 
 	effect: [
 		{
 			cond: [

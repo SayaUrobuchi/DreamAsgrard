@@ -387,7 +387,6 @@ function BattleScene()
 		case STATE.ROUND_END:
 			// 前進下一關
 			// 確認敵人消失 => 顯示下一波敵人
-			//console.log("i'm in STATE.ROUND_END");
 			switch (self.moving_state)
 			{
 			case ROUND_END_STATE.READY:
@@ -578,6 +577,7 @@ function BattleScene()
 			for (var i=0; i<self.hero_attack_queue.length; i++)
 			{
 				var hero = self.hero_attack_queue[i];
+				var attack = [];
 				for (var j=0; j<game.HERO_ATTACK_SKILL_NUMBER; j++)
 				{
 					hero.set_rate_msg(j, hero.get_damage(j, self).value);
@@ -627,12 +627,12 @@ function BattleScene()
 			{
 				var hero = self.hero_attack_queue[i];
 				hero.reset_rate_msg();
-				hero.set_rate(0);
 			}
 			self.check_enemy_defeat();
 			self.state = STATE.PREPARE;
 			self.set_turn(self.turn+1);
 			self.set_combo(0);
+			self.clear_hero_turn_flag();
 			for (var i=1; i<=6; i++)
 			{
 				self.set_mana_count(i, self.mana_count_table[i]+self.mana_plus_count_table[i]);
@@ -640,6 +640,18 @@ function BattleScene()
 			}
 			self.set_heal_visible(false, UI.BATTLE_HERO_HP_HEAL_WAIT_TIME);
 			break;
+		}
+	}
+	
+	// 清掉單回合的暫存
+	self.clear_hero_turn_flag = function ()
+	{
+		for (var i=0; i<game.BATTLE_HERO_NUM; i++)
+		{
+			if (self.hero[i])
+			{
+				//self.hero[i].clear_turn_flag();
+			}
 		}
 	}
 	

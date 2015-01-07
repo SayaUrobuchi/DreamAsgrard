@@ -17,6 +17,9 @@ var SK_EFFECT = {
 	HP_MUL: 1, 
 	ATK_MUL: 2, 
 	HEAL_MUL: 3, 
+	HP_RATE: 4, 
+	ATK_RATE: 5, 
+	HEAL_RATE: 6, 
 };
 
 var SK_TARGET = {
@@ -98,7 +101,7 @@ function Skill (id)
 		for (var i=0; i<self.data.effect.length; i++)
 		{
 			var e = self.data.effect[i];
-			if (e.dmg_type)
+			if (e.atk_type)
 			{
 				return self.attack_type = e.dmg_type;
 			}
@@ -123,9 +126,9 @@ function Skill (id)
 		return self.rate_base = 0;
 	}
 	
-	self.get_attack_around_power = function (field)
+	self.get_attack_hits = function (field)
 	{
-		var t = 9999;
+		var total_hit = 9999;
 		var overload = 0;
 		for (var i=0; i<self.data.require.length; i++)
 		{
@@ -145,13 +148,23 @@ function Skill (id)
 				}
 				hit = floor(cnt / req.combo);
 			}
-			if (hit < t)
+			if (hit < total_hit)
 			{
-				t = hit;
+				total_hit = hit;
 			}
 		}
-		var ret = self.get_rate_base() * t * self.owner.get_atk() / 100;
-		ret = floor(ret * (100 + game.COLOR_RELEASE_RATE*(overload)) / 100);
+		var ret = {
+			hit: total_hit, 
+			extra: overload, 
+		};
+		return ret;
+	}
+	
+	self.get_attack_around_power = function (field)
+	{
+		var res = self.get_attack_hits(field);
+		var ret = self.get_rate_base() * res.hit * self.owner.get_atk() / 100;
+		ret = floor(ret * (100 + self.owner.get_extra_color_release_rate()*(res.extra)) / 100);
 		return ret;
 	}
 	
