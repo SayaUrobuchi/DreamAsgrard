@@ -99,6 +99,9 @@
 #battle_main .enemy
 {
 	position: relative;
+	display: inline-block;
+	margin-left: 8px;
+	vertical-align: top;
 }
 
 #battle_main .enemy .full_image

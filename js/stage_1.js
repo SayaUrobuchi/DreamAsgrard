@@ -30,6 +30,8 @@ puzzle_stage_table[STAGE.BEFORE_ENTER_ASGARD = 1] = clone_hash(PUZZLE_TEMPLATE, 
 		clone_hash(ENEMY_ROUND_TEMPLATE, {
 			enemy: [
 				ENEMY.HIYOKO0_LV0, 
+				ENEMY.HIYOKO0_LV0, 
+				ENEMY.HIYOKO0_LV0, 
 			], 
 		}), 
 		clone_hash(ENEMY_ROUND_TEMPLATE, {

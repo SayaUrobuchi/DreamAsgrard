@@ -43,13 +43,13 @@ enemy_table[ENEMY.HIYOKO0_LV0 = 1] = clone_hash(ENEMY_TEMPLATE, {
 	name: '雞雛', 
 	type: MANA.LIGHT, 
 	full_image: IMAGE.E_HIYOKO, 
-	width: 240, 
+	width: 80, 
 	bottom: 0, 
 	level: 0, 
-	hp: 1111122, 
+	hp: 11122, 
 	def: 10, 
 	atk: 8, 
-	cd: 1400, 
+	cd: 5800, 
 });
 
 enemy_table[ENEMY.BAT0_LV0 = 2] = clone_hash(ENEMY_TEMPLATE, {

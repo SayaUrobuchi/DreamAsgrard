@@ -142,7 +142,10 @@ function Enemy (data)
 			self.alpha = 0;
 		}
 		self.dom.css('opacity', self.alpha);
-		self.is_disappear = (self.alpha <= 0);
+		if (self.alpha <= 0)
+		{
+			self.is_disappear = true;
+		}
 	}
 	
 	self.decide_next_action = function ()

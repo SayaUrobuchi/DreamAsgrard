@@ -343,7 +343,7 @@ function BattleScene()
 			{
 				var enemy = Enemy(enemy_table[round.enemy[i]]);
 				self.enemy.push(enemy);
-				width += enemy.data.width;
+				width += enemy.data.width + UI.BATTLE_ENEMY_MARGIN;
 				self.battle_enemy_div.append(enemy.dom);
 				set_css(enemy.dom, {
 					left: '0px', 
@@ -726,6 +726,10 @@ function BattleScene()
 					}
 				}
 				det.target = self.enemy[target];
+				if (mx > 0)
+				{
+					self.enemy_damage[target] += mx;
+				}
 				det.damage = {
 					display_value: action.get_final_power(), 
 					real_damage: action.get_final_damage(), 
