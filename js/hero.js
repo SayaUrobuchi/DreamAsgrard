@@ -173,25 +173,28 @@ function Hero (hero_data)
 		return sk.get_attack_around_power(field);
 	}
 	
-	// 計算一般技不計敵狀態的最終威力
-	self.get_damage = function (id, field)
+	self.get_attack_action = function (id, field)
 	{
 		var action = self.get_base_ability();
 		action.skill = self.get_attack_skill(id);
 		action.hits = action.skill.get_attack_hits(field);
-		var power = 0;
 		if (action.hits.hit > 0)
 		{
 			action.combo_result = field.combo_result;
 			action.set_type(ACTION.SKILL_CAST);
+		}
+		return action;
+	}
+	
+	// 計算一般技不計敵狀態的最終威力
+	self.get_damage = function (id, field)
+	{
+		var action = self.get_attack_action(id, field);
+		var power = 0;
+		if (action.hits.hit > 0)
+		{
 			field.buff_list.apply(action);
-			var atk = action.get_final_atk();
-			var base_rate = action.skill.get_rate_base();
-			var combo_rate = 100 + field.combo_result.combo*action.combo_rate;
-			var extra_rate = 100 + action.hits.extra*action.extra_rate;
-			var hits = action.hits.hit;
-			power = atk * (base_rate / 100) * (combo_rate / 100) * (extra_rate / 100) * hits;
-			console.log({atk: atk, base_rate: base_rate, combo_rate: combo_rate, extra_rate: extra_rate, hits: hits});
+			power = action.get_final_power();
 		}
 		var ret = {
 			value: floor(power), 
@@ -213,6 +216,18 @@ function Hero (hero_data)
 			}
 		}
 		return ret;
+	}
+	
+	// 計算一般技計入敵狀態的最終傷害
+	self.get_final_damage_action = function (id, enemy, field)
+	{
+		var action = self.get_attack_action(id, field);
+		if (action.hits.hit > 0)
+		{
+			action.set_sub(enemy);
+			field.buff_list.apply(action);
+		}
+		return action;
 	}
 	
 	// 判斷自身屬性
@@ -516,6 +531,11 @@ function Hero (hero_data)
 	self.is_skill_unlock = function (type, id)
 	{
 		return self.is_skill_unlock_handler[type](id);
+	}
+	
+	self.is_attack_skill_cast = function (id, field)
+	{
+		return self.get_attack_skill(id).get_attack_hits(field).hit > 0;
 	}
 	
 	self.add_buff = function (buff_list)

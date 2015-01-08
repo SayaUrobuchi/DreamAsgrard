@@ -218,6 +218,12 @@ function Action ()
 		c.atk.base = battler.get_atk();
 		c.heal.base = battler.get_heal();
 		
+		c.def = 0;
+		if (battler.get_def)
+		{
+			c.def = battler.get_def();
+		}
+		
 		c.battler = battler;
 		
 		return c;
@@ -275,6 +281,36 @@ function Action ()
 			loc = ACTION_BATTLER.MAIN;
 		}
 		return self.calc_final_ability(self.battler[loc].heal);
+	}
+	
+	self.get_final_def = function (loc)
+	{
+		if (!loc)
+		{
+			loc = ACTION_BATTLER.MAIN;
+		}
+		return self.battler[loc].def;
+	}
+	
+	self.get_final_power = function ()
+	{
+		var atk = self.get_final_atk();
+		var base_rate = self.skill.get_rate_base();
+		var combo_rate = 100 + self.combo_result.combo*self.combo_rate;
+		var extra_rate = 100 + self.hits.extra*self.extra_rate;
+		var hits = self.hits.hit;
+		console.log({atk: atk, base_rate: base_rate, combo_rate: combo_rate, extra_rate: extra_rate, hits: hits});
+		var power = floor(atk * (base_rate / 100) * (combo_rate / 100) * (extra_rate / 100) * hits);
+		return power;
+	}
+	
+	self.get_final_damage = function ()
+	{
+		var power = self.get_final_power();
+		var damage = floor(power
+			* MANA.attack_rate(self.skill.get_attack_type(), self.battler[ACTION_BATTLER.SUB].battler.get_type())/100);
+		damage = max(1, damage - self.get_final_def(ACTION_BATTLER.SUB));
+		return damage;
 	}
 	
 	self.init();

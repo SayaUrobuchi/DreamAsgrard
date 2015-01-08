@@ -587,25 +587,31 @@ function BattleScene()
 			break;
 		case ATTACKING_STATE.DO_ATTACK:
 			self.attack_wait = self.hero_attack_queue.length;
-			complete_template = function (damage)
+			self.enemy_damage = [];
+			for (var i=0; i<self.enemy.length; i++)
+			{
+				self.enemy_damage.push(0);
+			}
+			complete_template = function (detail)
 			{
 				return function ()
 				{
 					self.attack_wait--;
-					for (var i=0; i<damage.length; i++)
+					for (var i=0; i<detail.length; i++)
 					{
-						self.enemy[0].attacked(self, damage[i]);
+						var act = detail[i];
+						act.target.attacked(self, act.damage);
 					}
 				};
 			};
 			for (var i=0; i<self.hero_attack_queue.length; i++)
 			{
 				var hero = self.hero_attack_queue[i];
-				var damage = hero.get_all_damage(self);
+				var cast_detail = self.attack_dispatch(hero);
 				jump({
 					target: hero.dom, 
 					delay: UI.BATTLE_HERO_ATTACK_INTERVAL*i, 
-					on_complete: complete_template(damage), 
+					on_complete: complete_template(cast_detail), 
 				});
 			}
 			var heal = floor(self.heal * (100+game.COMBO_RATE*self.combo_result.combo)/100);
@@ -694,6 +700,42 @@ function BattleScene()
 			var adv = ADVScene();
 			scene.push(adv, true);
 		}
+	}
+	
+	self.attack_dispatch = function (hero)
+	{
+		var ret = [];
+		for (var j=0; j<game.HERO_ATTACK_SKILL_NUMBER; j++)
+		{
+			if (hero.is_attack_skill_cast(j, self))
+			{
+				var det = {};
+				var target = 0;
+				var action_temp;
+				var mx = -2147483647;
+				for (var k=0; k<self.enemy.length; k++)
+				{
+					var enemy = self.enemy[k];
+					var action = hero.get_final_damage_action(j, enemy, self);
+					var s = min(action.get_final_damage(), enemy.hp-self.enemy_damage[k]);
+					if (s > mx)
+					{
+						mx = s;
+						target = k;
+						action_temp = action;
+					}
+				}
+				det.target = self.enemy[target];
+				det.damage = {
+					display_value: action.get_final_power(), 
+					real_damage: action.get_final_damage(), 
+					type: action.skill.get_attack_type(), 
+				};
+				ret.push(det);
+			}
+		}
+		console.log(ret);
+		return ret;
 	}
 	
 	// 改變己方目前血量

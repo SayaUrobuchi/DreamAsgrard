@@ -213,7 +213,7 @@ function Enemy (data)
 		var x = rand(self.width());
 		var y = rand(self.height())-20;
 		var dmg = $('<div class="damage"></div>');
-		var display_value = limit(damage.value-self.def(), 1, Infinity);
+		var display_value = damage.display_value;
 		dmg.text(display_value);
 		self.dom.append(dmg);
 		var font_size = '20px';
@@ -226,7 +226,7 @@ function Enemy (data)
 		
 		// 計算相剋倍率以及顯示動畫
 		var rate = MANA.attack_rate(damage.type, self.data.type);
-		var real_damage = limit(floor(damage.value*rate/100)-self.def(), 1, Infinity);
+		var real_damage = damage.real_damage;
 		if (rate == game.COLOR_GOOD_RATE)
 		{
 			font_size = '30px';
@@ -346,6 +346,31 @@ function Enemy (data)
 	self.is_dead = function ()
 	{
 		return self.hp <= 0;
+	}
+	
+	self.get_type = function ()
+	{
+		return self.data.type;
+	}
+	
+	self.get_hp = function ()
+	{
+		return self.data.hp;
+	}
+	
+	self.get_atk = function ()
+	{
+		return self.data.atk;
+	}
+	
+	self.get_heal = function ()
+	{
+		return self.data.heal;
+	}
+	
+	self.get_def = function ()
+	{
+		return self.data.def;
 	}
 	
 	self.init();

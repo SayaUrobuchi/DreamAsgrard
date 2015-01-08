@@ -82,7 +82,7 @@ skill_table[SKILL.L_SINSAN = 2] = clone_hash(L_SKILL_TEMPLATE, {
 			effect: [
 				{
 					type: SK_EFFECT.ATK_MUL, 
-					value: 200, 
+					value: 150, 
 				},
 			], 
 			battle_loc: SK_TARGET.TEAMMATE, 
