@@ -713,16 +713,53 @@ function BattleScene()
 				var target = 0;
 				var action_temp;
 				var mx = -2147483647;
+				var kill = false;
+				var live = false;
 				for (var k=0; k<self.enemy.length; k++)
 				{
 					var enemy = self.enemy[k];
 					var action = hero.get_final_damage_action(j, enemy, self);
-					var s = min(action.get_final_damage(), enemy.hp-self.enemy_damage[k]);
-					if (s > mx)
+					var s = action.get_final_damage();
+					var remain = enemy.hp - self.enemy_damage[k];
+					// 優先選擇未死的目標
+					if (remain > 0)
 					{
-						mx = s;
-						target = k;
-						action_temp = action;
+						if (!live)
+						{
+							live = true;
+							mx = -2147483647;
+						}
+						// 可以一擊死時，優先選擇可一擊擊殺者中，剩餘血量較多的敵人
+						if (s >= remain)
+						{
+							s = remain;
+							if (!kill || s > mx)
+							{
+								mx = s;
+								kill = true;
+								target = k;
+								action_temp = action;
+							}
+						}
+						// 無法一擊死時，選擇能帶來最大傷害的對象
+						else
+						{
+							if (!kill && s > mx)
+							{
+								mx = s;
+								target = k;
+								action_temp = action;
+							}
+						}
+					}
+					else if (!live)
+					{
+						if (s > mx)
+						{
+							mx = s;
+							target = k;
+							action_temp = action;
+						}
 					}
 				}
 				det.target = self.enemy[target];
