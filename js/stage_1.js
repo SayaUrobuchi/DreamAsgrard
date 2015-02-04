@@ -6,17 +6,18 @@ var puzzle_stage_table = {
 		desc: '其實就只是四處晃晃，看會不會轉角撞到咬著土司的幼女…\n'+
 				'不會有的吧，我想。', 
 		round: [
-		clone_hash(ENEMY_ROUND_TEMPLATE, {
-			enemy: [
-				ENEMY.TEST, 
-			], 
-		}), 
-		clone_hash(ENEMY_ROUND_TEMPLATE, {
-			enemy: [
-				ENEMY.TEST_GOODMAN, 
-			], 
-		}), 
+			clone_hash(ENEMY_ROUND_TEMPLATE, {
+				enemy: [
+					ENEMY.TEST, 
+				], 
+			}), 
+			clone_hash(ENEMY_ROUND_TEMPLATE, {
+				enemy: [
+					ENEMY.TEST_GOODMAN, 
+				], 
+			}), 
 		], 
+		round_count: 2, 
 	}), 
 };
 

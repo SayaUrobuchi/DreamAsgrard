@@ -1,8 +1,8 @@
 
 var battle_main = $('<div id="battle_main"></div>');
 
-var __DEBUG_USING_TEST_TEAM = true;
-var __DEBUG_SKIP_ADV = true;
+var __DEBUG_USING_TEST_TEAM = false;
+var __DEBUG_SKIP_ADV = false;
 var __DEBUG_INIT_HP_RATE = 100;
 
 function BattleScene()
@@ -252,6 +252,7 @@ function BattleScene()
 		self.set_hero_hp(now_hp);
 		self.set_hero_hp_max(self.hero_hp_max);
 		self.set_heal_visible(false);
+		self.game_over = false;
 		
 		// enemy related
 		self.enemy_defeat = false;
@@ -333,6 +334,7 @@ function BattleScene()
 			self.round++;
 			if (self.is_stage_clear())
 			{
+				console.log(self.round);
 				self.state = STATE.STAGE_END;
 				break;
 			}
@@ -399,7 +401,7 @@ function BattleScene()
 					if (enemy.is_disappear)
 					{
 						var e = self.enemy.pop();
-						if (i > 0 && i <= self.enemy.length)
+						if (i < self.enemy.length)
 						{
 							self.enemy[i] = e;
 						}
@@ -425,6 +427,7 @@ function BattleScene()
 				log(LOG_MSG, 'LOSE..');
 				// TODO: maybe need to add gameover scene
 				self.state = STATE.LOSE_STORY;
+				self.game_over = true;
 			}
 			// 否則理論上是敵全滅
 			else if (self.is_stage_clear())
@@ -461,7 +464,7 @@ function BattleScene()
 			self.set_hero_hp(self.hero_hp_max);
 		}
 		*/
-		if (self.is_game_over())
+		if (!self.game_over && self.is_game_over())
 		{
 			self.state = STATE.STAGE_END;
 		}

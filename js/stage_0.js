@@ -29,4 +29,5 @@ var DEFAULT_MANA_WEIGHT_TABLE = clone_hash(MANA_WEIGHT_TABLE_TEMPLATE, {
 	3: 100, 
 	4: 100, 
 	5: 100, 
+	6: 100, 
 });
